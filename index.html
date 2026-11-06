@@ -147,8 +147,8 @@ section.view{display:grid;gap:56px}
 .legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--f-body);font-size:14px;font-weight:400;color:var(--muted)}
 .legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
 .legend .l1::before{background:#ffcb05}.legend .l2::before{background:#7fb0e8}.legend .l3::before{background:#6b7a88}
-.cell{--cc:#ffcb05;border-color:var(--cc);background:color-mix(in srgb,var(--cc) 16%,#00274c)}
-.cell.g-pi{--cc:#ffcb05}.cell.g-postdoc{--cc:#ff9a6a}.cell.g-grad{--cc:#5fd6c6}.cell.g-tech{--cc:#bda6f5}.cell.g-ug{--cc:#8fc4ff}.cell.g-alum{--cc:#8a97a5}
+.cell{--cc:#ffcb05;border-color:var(--cc);border-width:3px;background:color-mix(in srgb,var(--cc) 40%,#00274c)}
+.cell.g-pi{--cc:#ffcb05}.cell.g-postdoc{--cc:#ff7a45}.cell.g-grad{--cc:#2ed3b7}.cell.g-tech{--cc:#a98bff}.cell.g-ug{--cc:#4aa8ff}.cell.g-alum{--cc:#9aa5b1}
 .cell .nucleus{background:radial-gradient(circle at 35% 35%,color-mix(in srgb,var(--cc) 35%,#fff),var(--cc))!important}
 .cell .nucleus.has-photo{border-color:var(--cc)!important}
 .cell:hover{box-shadow:0 0 0 6px color-mix(in srgb,var(--cc) 30%,transparent)}
@@ -329,7 +329,7 @@ footer .links{display:flex;gap:16px;flex-wrap:wrap}
     <div class="brandwrap"><a class="brand" href="#home" aria-label="Huycke Lab home"><img src="img/logo-light.png" alt="Huycke Lab" width="110" height="45"></a><a class="mcdb" href="https://lsa.umich.edu/mcdb" target="_blank" rel="noopener"><img src="img/mcdb-logo.png" alt="Molecular, Cellular, and Developmental Biology, LSA, University of Michigan" width="752" height="96"></a></div>
     <nav class="main" aria-label="Main">
       <a href="#research">Research</a>
-      <a href="#team">People</a>
+      <a href="#team">Team</a>
       <a href="#publications">Publications &amp; Media</a>
       <a href="#news">News</a>
       <a href="#join">Join</a>
@@ -341,7 +341,7 @@ footer .links{display:flex;gap:16px;flex-wrap:wrap}
   <div class="landing-inner">
     <img class="landing-logo" src="img/logo-light.png" alt="Huycke Lab" width="900" height="365">
     <nav class="landing-nav" aria-label="Sections">
-      <a href="#research">Research</a><a href="#team">People</a><a href="#publications">Publications &amp; Media</a><a href="#news">News</a><a href="#join">Join us</a>
+      <a href="#research">Research</a><a href="#team">Team</a><a href="#publications">Publications &amp; Media</a><a href="#news">News</a><a href="#join">Join us</a>
     </nav>
   </div>
 </div>
@@ -385,13 +385,13 @@ footer .links{display:flex;gap:16px;flex-wrap:wrap}
 <!-- TEAM -->
 <section class="view" id="v-team" hidden>
   <div class="hero">
-    <h1>The Lab</h1>
+    <h1>Meet the lab</h1>
   </div>
   <figure class="groupshot"><img src="img/group.jpg" alt="The Huycke Lab group" width="1600" height="916"><figcaption>The Huycke Lab, 2026</figcaption></figure>
   <div class="team-grid">
     <div style="display:grid;gap:14px">
       <div class="tissue" id="tissue" role="group" aria-label="Lab members"></div>
-      <div class="legend"><span class="lg g-pi" style="--cc:#ffcb05">PI</span><span class="lg g-postdoc" style="--cc:#ff9a6a">Postdoc</span><span class="lg g-tech" style="--cc:#bda6f5">Research technician</span><span class="lg g-grad" style="--cc:#5fd6c6">Graduate students</span><span class="lg g-ug" style="--cc:#8fc4ff">Undergraduates</span><span class="lg g-alum" style="--cc:#8a97a5">Alumni</span></div>
+      <div class="legend"><span class="lg g-pi" style="--cc:#ffcb05">PI</span><span class="lg g-postdoc" style="--cc:#ff7a45">Postdoc</span><span class="lg g-tech" style="--cc:#a98bff">Research technician</span><span class="lg g-grad" style="--cc:#2ed3b7">Graduate students</span><span class="lg g-ug" style="--cc:#4aa8ff">Undergraduates</span><span class="lg g-alum" style="--cc:#9aa5b1">Alumni</span></div>
     </div>
     <aside class="profile" id="profile" aria-live="polite"></aside>
   </div>
@@ -502,13 +502,13 @@ const PEOPLE=[
  {id:"tyler",group:"pi",name:"Tyler Huycke, PhD",short:"Tyler",kind:"pi",role:"Principal Investigator",title:["Assistant Professor","Department of Molecular, Cellular, and Developmental Biology"],joined:"2025-01",photo:"img/head-1.jpg",
   facts:{"B.S.":"University of Oregon","Ph.D.":"Harvard Medical School","Postdoc":"UCSF","Honors":"2026 Searle Scholar · 2026 Ralph E. Powe Award · Takeda/Nature Innovators in Science shortlist","Contact":"thuycke@umich.edu"}},
  {id:"rei",group:"postdoc",name:"Rei Yagasaki, PhD",short:"Rei",kind:"member",role:"Postdoctoral Fellow",joined:"2025-05",background:"Ph.D., Kyoto University",photo:"img/head-8.jpg"},
- {id:"lucas",group:"tech",name:"Lucas Pineiro",short:"Lucas",kind:"member",role:"Research Technician",joined:"2025-01-27",background:"B.S., Cornell University; Master's, UC Riverside",photo:"img/head-6.jpg"},
+ {id:"lucas",group:"tech",name:"Lucas Pineiro",short:"Lucas",kind:"member",role:"Lab Manager and Research Technician",joined:"2025-01-27",background:"B.S., Cornell University; Master's, UC Riverside",photo:"img/head-6.jpg"},
  {id:"irene",group:"grad",name:"Irene Jin",short:"Irene",kind:"member",role:"Ph.D. student, MCDB · 3rd year",joined:"2025-04",background:"B.S., Duke Kunshan University",photo:"img/head-3.jpg"},
- {id:"lecaine",group:"grad",name:"LeCaine Barker",short:"LeCaine",kind:"member",role:"Ph.D. student, MCDB · 2nd year",joined:"2026-05",background:"B.A., Cornell College",photo:"img/head-5.jpg"},
+ {id:"lecaine",group:"grad",name:"LeCaine Barker",short:"LeCaine",kind:"member",role:"Ph.D. student, MCDB · 2nd year",joined:"2026-05",background:"B.A., Cornell College",honors:"Biophysics T32",photo:"img/head-5.jpg"},
  {id:"jiaxuan",group:"grad",name:"Jiaxuan Liang",short:"Jiaxuan",kind:"member",role:"Ph.D. student, MCDB · 2nd year",joined:"2026-05",background:"B.S., Jilin University",photo:"img/head-4.jpg"},
  {id:"april",group:"grad",name:"April Dembinski",short:"April",kind:"member",role:"Master's student, MCDB Pathways",joined:"2026-08",background:"B.S., Eastern Michigan University",photo:"img/head-2.jpg"},
- {id:"steven",group:"ug",name:"Steven Nkurunziza",short:"Steven",kind:"member",role:"Undergraduate, MCDB Horizons",joined:"2026-06",photo:"img/head-9.jpg"},
- {id:"cassia",group:"ug",name:"Cassia Rubio-Turtle",short:"Cassia",kind:"member",role:"Undergraduate researcher",joined:null,photo:null},
+ {id:"steven",group:"ug",name:"Steven Nkurunziza",short:"Steven",kind:"member",role:"Undergraduate, MCDB Horizons",joined:"2026-06",honors:"Expanding Horizons Fellowship",photo:"img/head-9.jpg"},
+ {id:"cassia",group:"ug",name:"Cassia Rubio-Turtle",short:"Cassia",kind:"member",role:"Undergraduate researcher",joined:null,photo:"img/head-10.jpg"},
  {id:"liela",group:"ug",name:"Liela Yazjie",short:"Liela",kind:"member",role:"Undergraduate researcher",joined:null,photo:null},
  {id:"richard",group:"alum",name:"Richard Moulton",short:"Richard",kind:"alum",role:"Undergraduate researcher (graduated 2026)",joined:null,left:"2026-05-21",leftLabel:"graduated",photo:"img/head-7.jpg"}
 ];
@@ -551,7 +551,7 @@ function renderTissue(){
   $("#tissue").innerHTML=PEOPLE.map(p=>`<button type="button" class="cell ${p.kind} g-${p.group}" style="--i:${PEOPLE.indexOf(p)}" data-id="${p.id}" aria-pressed="${p.id===sel}" aria-label="${esc(p.name)}">${p.photo?`<span class="nucleus has-photo"><img src="${p.photo}" alt="" loading="lazy"></span>`:`<span class="nucleus">${initials(p.name)}</span>`}<small>${esc(p.short)}</small></button>`).join("");
   const p=PEOPLE.find(x=>x.id===sel);
   const joined=p.joined?MON[+p.joined.slice(5,7)-1]+" "+p.joined.slice(0,4):"—";
-  const facts=p.facts||(p.background?{"Background":esc(p.background)}:{});
+  const facts=p.facts||Object.assign({},p.background?{"Background":esc(p.background)}:{},p.honors?{"Honors":esc(p.honors)}:{});
   const idx=PEOPLE.indexOf(p),N=PEOPLE.length,prevP=PEOPLE[(idx-1+N)%N],nextP=PEOPLE[(idx+1)%N];
   $("#profile").innerHTML=`<div class="pwrap">${p.photo?`<div class="photo filled"><img src="${p.photo}" alt="${esc(p.name)}"></div>`:`<div class="photo">Headshot coming soon</div>`}<button type="button" class="pnav prev" data-step="-1" aria-label="Previous: ${esc(prevP.name)}">‹</button><button type="button" class="pnav next" data-step="1" aria-label="Next: ${esc(nextP.name)}">›</button><span class="pcount">${idx+1} / ${N}</span></div>
    <div><span class="eyebrow">${({pi:"Principal investigator",postdoc:"Postdoc",tech:"Research technician",grad:"Graduate student",ug:"Undergraduate",alum:"Alumni"})[p.group]||"Current member"}</span><h2>${esc(p.name)}</h2>
