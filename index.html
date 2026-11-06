@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Huycke Lab</title>
+<meta name="description" content="The Huycke Lab at the University of Michigan studies how cells build, remember, and reshape organ architecture, starting with the folds of the intestine.">
+<meta property="og:title" content="Huycke Lab">
+<meta property="og:description" content="Defining the cellular logic of organ architecture. Department of Molecular, Cellular, and Developmental Biology, University of Michigan.">
+<meta property="og:image" content="img/group.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/favicon.png">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a tissue section under the scope, dressed in Michigan maize, blue and black. Black header band, maize as fill, blue as text accent. */
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --ink:#0b0c0e; --muted:#4f5a66; --line:#d8dde3; --bright:#0088d6;
+  --mem:#00274c; --maize:#ffcb05; --on-maize:#0b0c0e; --nuc:#2f65a7; --scope:#0b0c0e; --scope-ink:#eef1f4;
+  --band:#0b0c0e; --band-ink:#eef1f4; --chip:#e8ecf1;
+  --f-display:"Century Gothic", CenturyGothic, "AppleGothic", "Didact Gothic", "Futura", sans-serif;
+  --f-body:"Century Gothic", CenturyGothic, "AppleGothic", "Didact Gothic", "Futura", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#08090a; --surface:#12161b; --ink:#eef1f4; --muted:#9aa5b1; --line:#262d35; --bright:#00aaff;
+  --mem:#ffcb05; --nuc:#7fb0e8; --scope:#000000; --band:#000000; --chip:#1b2129; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#08090a; --surface:#12161b; --ink:#eef1f4; --muted:#9aa5b1; --line:#262d35; --bright:#00aaff;
+  --mem:#ffcb05; --nuc:#7fb0e8; --scope:#000000; --band:#000000; --chip:#1b2129; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid var(--nuc);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;letter-spacing:-.01em;line-height:1.15;text-wrap:balance;margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* header */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--band)}
+header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--band);color:var(--band-ink);border-bottom:4px solid var(--maize)}
+header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:18px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+.brand img{height:60px;width:auto;display:block}
+.brandwrap{display:flex;align-items:center;gap:18px}
+.mcdb{display:block;padding-left:18px;border-left:1px solid rgba(255,203,5,.5)}
+.mcdb img{height:34px;width:auto;display:block}
+@media (max-width:960px){.mcdb{display:none}}
+@media (max-width:520px){.tissue{padding:18px 12px 36px;gap:12px 8px}.cell{padding:6px}}
+.brand b{font-family:var(--f-display);font-weight:700;font-size:22px;color:var(--maize)}
+.brand span{font-family:var(--f-body);font-size:12px;font-weight:700;color:var(--band-ink);opacity:.8;letter-spacing:.08em;text-transform:uppercase;padding-left:14px;border-left:1px solid rgba(255,203,5,.5);line-height:1.5}
+nav.main{display:flex;gap:4px;flex-wrap:wrap}
+nav.main a{text-decoration:none;font-size:14px;font-weight:700;padding:6px 12px;border-radius:2px;color:var(--band-ink);opacity:.8}
+nav.main a:hover{opacity:1;color:var(--maize)}
+nav.main a[aria-current="page"]{color:var(--on-maize);background:var(--maize);opacity:1}
+
+main{padding-block:40px 80px}
+section.view{display:grid;gap:56px}
+.lede{font-size:clamp(18px,2.2vw,21px);color:var(--muted);max-width:62ch}
+
+/* scope panel */
+.scope{position:relative;background:var(--scope);border-radius:6px;overflow:hidden;color:var(--scope-ink)}
+.scope canvas{display:block;width:100%;height:100%}
+.scale{position:absolute;right:16px;bottom:14px;display:flex;flex-direction:column;align-items:flex-end;gap:4px;font-family:var(--f-mono);font-size:11px;color:var(--scope-ink)}
+.scale i{display:block;height:3px;width:72px;background:var(--scope-ink)}
+.ch{position:absolute;left:16px;top:14px;display:flex;gap:12px;font-family:var(--f-mono);font-size:11px}
+.ch span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:currentColor;vertical-align:1px}
+
+/* home */
+.hero{display:grid;gap:28px}
+.hero h1{font-size:clamp(36px,6vw,68px);max-width:16ch}
+.hero h1 em{font-style:normal;text-decoration:underline;text-decoration-color:var(--maize);text-decoration-thickness:5px;text-underline-offset:8px;text-decoration-skip-ink:none}
+.hero .scope{height:clamp(220px,34vw,380px)}
+.qs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.q{display:grid;gap:10px;padding-top:16px;border-top:4px solid var(--maize);text-decoration:none}
+.q h3{font-size:22px}
+.q p{margin:0;color:var(--muted);font-size:15px}
+.q:hover h3{color:var(--mem)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px}
+@media (max-width:760px){.split{grid-template-columns:minmax(0,1fr)}}
+.sechead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.sechead h2{font-size:28px}
+#v-publications .sechead h2{color:var(--bright)}
+.more{font-size:14px;font-weight:600;color:var(--mem);text-decoration:none}
+
+/* news */
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters button{font:500 14px var(--f-body);border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:6px 14px;border-radius:999px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--maize);color:var(--on-maize);border-color:var(--maize)}
+.filters button .n{font-family:var(--f-mono);font-size:12px;opacity:.6;margin-left:6px}
+.year{display:grid;grid-template-columns:110px minmax(0,1fr);gap:24px}
+@media (max-width:640px){.year{grid-template-columns:minmax(0,1fr);gap:8px}}
+.year>h2{font-size:40px;color:var(--muted);position:sticky;top:120px;align-self:start}
+@media (max-width:640px){.year>h2{position:static;font-size:30px}}
+.items{list-style:none;margin:0;padding:0;border-left:1px solid var(--line)}
+.item{position:relative;display:grid;grid-template-columns:92px minmax(0,1fr);gap:16px;padding:14px 0 14px 22px}
+.item::before{content:"";position:absolute;left:-5px;top:22px;width:9px;height:9px;border-radius:50%;background:var(--bg);border:2px solid var(--muted)}
+.item[data-cat="Award"]::before{border-color:var(--maize);background:var(--maize)}
+.item[data-cat="People"]::before{border-color:var(--nuc)}
+.item[data-cat="Milestone"]::before{border-color:var(--nuc);background:var(--nuc)}
+.item .d{font-family:var(--f-mono);font-size:16px;font-weight:500;color:var(--muted);padding-top:1px}
+.item h3{font-family:var(--f-body);font-weight:600;font-size:17px;line-height:1.35}
+.item .tag{display:inline-block;margin-top:6px;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.item .tag a{color:var(--mem)}
+.item.big h3{font-family:var(--f-display);font-weight:700;font-size:22px}
+.compact .item{grid-template-columns:64px minmax(0,1fr);padding-block:10px}
+
+/* team */
+.tissue{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));justify-items:center;gap:16px 14px;padding:28px 24px 52px;background:var(--scope);border-radius:6px}
+.cell{--c:var(--nuc);position:relative;width:100%;max-width:168px;aspect-ratio:1;border:2.5px solid #ffcb05;background:#00274c;cursor:pointer;display:grid;place-items:center;color:var(--scope-ink);font:inherit;padding:10px;transition:transform .25s ease, box-shadow .25s ease}
+.cell:nth-child(3n+1){border-radius:46% 54% 42% 58%/55% 45% 55% 45%}
+.cell:nth-child(3n+2){border-radius:58% 42% 52% 48%/44% 58% 42% 56%}
+.cell:nth-child(3n){border-radius:50% 50% 60% 40%/52% 40% 60% 48%}
+.cell{--oy:0px;translate:0 var(--oy);animation:breathe 9s ease-in-out infinite;animation-delay:calc(var(--i,0) * -1.3s)}
+.cell:nth-child(even){--oy:24px}
+@keyframes breathe{
+  0%,100%{translate:0 var(--oy);scale:1}
+  33%{translate:1.5px calc(var(--oy) - 3px);scale:1.015}
+  66%{translate:-1.5px calc(var(--oy) + 2px);scale:.99}}
+.cell:nth-child(3n+1){animation-name:breathe,morphA}
+.cell:nth-child(3n+2){animation-name:breathe,morphB}
+.cell:nth-child(3n){animation-name:breathe,morphC}
+.cell{animation-duration:9s,11s}
+@keyframes morphA{0%,100%{border-radius:46% 54% 42% 58%/55% 45% 55% 45%}50%{border-radius:54% 46% 50% 50%/47% 53% 47% 53%}}
+@keyframes morphB{0%,100%{border-radius:58% 42% 52% 48%/44% 58% 42% 56%}50%{border-radius:50% 50% 44% 56%/52% 48% 54% 46%}}
+@keyframes morphC{0%,100%{border-radius:50% 50% 60% 40%/52% 40% 60% 48%}50%{border-radius:44% 56% 52% 48%/46% 54% 48% 52%}}
+.nucleus{animation:drift 7s ease-in-out infinite;animation-delay:calc(var(--i,0) * -0.8s)}
+@keyframes drift{0%,100%{translate:0 0}50%{translate:1.5px -1.5px}}
+.cell:hover{box-shadow:0 0 0 6px rgba(255,203,5,.25)}
+.cell[aria-pressed="true"]{box-shadow:0 0 0 6px rgba(255,203,5,.55);border-color:#fff}
+.nucleus{width:46%;height:auto;aspect-ratio:1;border-radius:47% 53% 50% 50%;background:radial-gradient(circle at 35% 35%,#cfe3fb,#7fb0e8);display:grid;place-items:center;font-family:var(--f-body);font-weight:700;color:#00274c;font-size:16px}
+.cell.pi .nucleus{background:radial-gradient(circle at 35% 35%,#fff0a8,#ffcb05)}
+.cell.alum{border-style:dashed;opacity:.8;background:#1a1d21}
+.cell.alum .nucleus{background:radial-gradient(circle at 35% 35%,#c9d4de,#6b7a88)}
+.cell small{position:absolute;bottom:7%;left:0;right:0;text-align:center;font-size:clamp(11px,1.6vw,13px);font-weight:600}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--f-body);font-size:14px;font-weight:400;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.legend .l1::before{background:#ffcb05}.legend .l2::before{background:#7fb0e8}.legend .l3::before{background:#6b7a88}
+.cell{--cc:#ffcb05;border-color:var(--cc);background:color-mix(in srgb,var(--cc) 16%,#00274c)}
+.cell.g-pi{--cc:#ffcb05}.cell.g-postdoc{--cc:#ff9a6a}.cell.g-grad{--cc:#5fd6c6}.cell.g-tech{--cc:#bda6f5}.cell.g-ug{--cc:#8fc4ff}.cell.g-alum{--cc:#8a97a5}
+.cell .nucleus{background:radial-gradient(circle at 35% 35%,color-mix(in srgb,var(--cc) 35%,#fff),var(--cc))!important}
+.cell .nucleus.has-photo{border-color:var(--cc)!important}
+.cell:hover{box-shadow:0 0 0 6px color-mix(in srgb,var(--cc) 30%,transparent)}
+.cell[aria-pressed="true"]{box-shadow:0 0 0 6px color-mix(in srgb,var(--cc) 60%,transparent);border-color:#fff}
+.cell.alum{background:#1a1d21}
+.legend .lg::before{background:var(--cc)}
+.legend .lg.g-alum::before{background:transparent;border:2px dashed var(--cc);width:8px;height:8px}
+
+.team-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:860px){.team-grid{grid-template-columns:minmax(0,1fr)}}
+.profile{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:28px;display:grid;gap:16px;position:sticky;top:120px;scroll-margin-top:130px}
+@media (max-width:860px){.profile{position:static}}
+.profile h2{font-size:32px}
+.profile .ptitle{margin-top:4px;font-size:15px;color:var(--muted);line-height:1.45}
+.profile .role{color:var(--mem);font-weight:600;font-size:15px}
+.photo{aspect-ratio:4/3;max-width:100%;border-radius:4px;background:repeating-linear-gradient(45deg,var(--chip) 0 10px,transparent 10px 20px);border:1px dashed var(--line);display:grid;place-items:center;color:var(--muted);font-family:var(--f-mono);font-size:12px;text-align:center;padding:12px}
+dl.facts{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 16px;margin:0;font-size:15px}
+dl.facts dt{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+dl.facts dd{margin:0}
+.todo{color:var(--muted);font-style:italic}
+.growth{display:grid;gap:10px}
+.track{position:relative;height:70px;margin:0 70px;border-bottom:1px solid var(--line);margin-top:8px}
+.tick{position:absolute;bottom:-20px;font-family:var(--f-mono);font-size:11px;color:var(--muted);transform:translateX(-50%)}
+.pip{position:absolute;bottom:0;width:3px;background:var(--maize)}
+.pip span{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:12px;font-weight:600;margin-bottom:2px}
+.pip.out{top:100%;bottom:auto;background:repeating-linear-gradient(to bottom,var(--muted) 0 3px,transparent 3px 6px)}
+.pip.out span{bottom:auto;top:100%;margin-bottom:0;margin-top:2px}
+.pip.out span{color:var(--muted)}
+.pip.out em{font-style:normal;font-weight:400}
+.legend-track{display:flex;gap:16px;font-size:13px;color:var(--muted);margin-top:4px}
+.legend-track i{display:inline-block;width:3px;height:12px;margin-right:6px;vertical-align:-1px;background:var(--maize)}
+.legend-track i.out{background:repeating-linear-gradient(to top,var(--muted) 0 3px,transparent 3px 6px)}
+.growth-wrap{overflow-x:auto;padding-bottom:74px}
+.growth-wrap .track{min-width:640px}
+.pip span{left:-3px!important;transform:none!important;background:var(--bg);padding:0 4px 0 6px;z-index:2;line-height:1.35}
+
+/* research */
+.rq{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:40px;align-items:center}
+.rq:nth-child(even) .scope{order:2}
+@media (max-width:820px){.rq{grid-template-columns:minmax(0,1fr)}.rq:nth-child(even) .scope{order:0}}
+.rq .scope{aspect-ratio:4/3;max-width:100%}
+.rq h2{font-size:clamp(26px,3.4vw,36px);margin:8px 0 14px}
+.rq .lead{font-weight:600;margin:0 0 12px}
+.rq p{margin:0 0 12px;max-width:65ch;color:var(--muted)}
+.rq-list{display:grid;gap:72px}
+
+/* pubs */
+.hl{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.hl article{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:24px;display:grid;gap:10px;align-content:start}
+.hl h3{font-size:24px}.hl h3 em{font-style:normal;text-decoration:underline;text-decoration-color:var(--maize);text-decoration-thickness:4px;text-underline-offset:6px;text-decoration-skip-ink:none}
+.hl p{margin:0;font-size:15px;color:var(--muted)}
+.cite{font-family:var(--f-body);font-size:14px;font-weight:700}
+.publist{list-style:none;margin:0;padding:0;display:grid}
+.publist li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;padding:16px 0;border-top:1px solid var(--line)}
+.publist .y{font-family:var(--f-mono);font-size:13px;color:var(--muted);padding-top:2px}
+.publist .t{font-weight:600}
+.publist .t a{text-decoration:none;color:var(--ink)}
+.publist .t a:hover{text-decoration:underline;text-decoration-color:var(--maize);text-decoration-thickness:2px;text-underline-offset:3px}
+.publist .t .ext{color:var(--muted);font-weight:400;font-size:.85em}
+.publist .a{font-size:14px;color:var(--muted)}
+.publist .a b{color:var(--ink)}
+.publist .j{font-size:14px}
+.hlmedia{margin:-24px -24px 6px;aspect-ratio:4/3;max-width:calc(100% + 48px);background:#0b0c0e;border-radius:6px 6px 0 0;overflow:hidden}
+.hlmedia video{width:100%;height:100%;display:block}
+.hlmedia.cover video{object-fit:cover}
+.hlmedia.contain video{object-fit:contain}
+.ptag{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:var(--maize);color:var(--on-maize);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;vertical-align:1px}
+.pubnote{margin:12px 0 0;font-size:13px;color:var(--muted)}
+
+/* join */
+.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.roles article{border-top:4px solid var(--maize);padding-top:16px;display:grid;gap:8px;align-content:start}
+.roles h3{font-size:22px}
+.roles p{margin:0;font-size:15px;color:var(--muted)}
+.status{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.status.open{color:var(--nuc);font-weight:500}.status.closed{color:var(--muted)}
+.email{display:inline-flex;gap:8px;align-items:center;font-family:var(--f-mono);font-size:14px;background:var(--chip);padding:6px 10px;border-radius:4px;user-select:all}
+.copy{font:600 13px var(--f-body);border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:6px 10px;border-radius:4px;cursor:pointer}
+
+footer.site{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:14px}
+footer.site .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer.site a{color:var(--muted)}
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.jump button{font:600 14px var(--f-body);border:1.5px solid var(--maize);background:transparent;color:var(--ink);padding:6px 14px;border-radius:999px;cursor:pointer;transition:background .15s}
+.jump button:hover,.jump button:focus-visible{background:var(--maize);color:var(--on-maize)}
+#sec-hl,#sec-articles,#sec-reviews,#sec-press,#sec-talks{scroll-margin-top:130px}
+@media (max-width:600px){#sec-hl,#sec-articles,#sec-reviews,#sec-press,#sec-talks{scroll-margin-top:110px}}
+
+.item.has-photo{grid-template-columns:92px minmax(0,1fr) 150px}
+.thumb{padding:0;border:0;background:none;cursor:zoom-in;border-radius:6px;overflow:hidden;align-self:start;aspect-ratio:4/3;width:150px;max-width:100%;box-shadow:0 0 0 1px var(--line)}
+.thumb img{width:100%;height:100%;object-fit:cover;object-position:50% 70%;display:block;transition:transform .3s}
+.thumb:hover img{transform:scale(1.04)}
+.thumb{position:relative}
+.thumb .count{position:absolute;right:6px;bottom:6px;background:rgba(11,12,14,.75);color:#fff;font:700 11px var(--f-body);padding:2px 7px;border-radius:999px}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:#ffcb05;color:#0b0c0e;font:700 26px/1 var(--f-body);cursor:pointer;display:grid;place-items:center}
+.lb-nav.prev{left:max(12px,env(safe-area-inset-left,0px))}.lb-nav.next{right:max(12px,env(safe-area-inset-right,0px))}
+
+.item.has-logo .thumb{grid-column:2;width:min(340px,100%);aspect-ratio:auto;background:#fff;padding:10px 14px;margin-top:4px}
+.item.has-logo .thumb img{height:auto;max-height:110px;width:auto;max-width:100%;object-fit:contain}
+.item.has-logo .thumb{display:flex;justify-content:flex-start}
+@media (max-width:640px){.item,.item.has-photo{grid-template-columns:76px minmax(0,1fr)}.item.has-photo .thumb{grid-column:2;width:100%;max-width:320px}}
+.lightbox{position:fixed;inset:0;z-index:50;background:rgba(5,6,8,.88);display:grid;place-items:center;padding:max(24px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(24px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));cursor:zoom-out}
+.lightbox figure{margin:0;display:grid;gap:10px;max-width:min(1100px,100%)}
+.lightbox img{max-width:100%;max-height:80vh;width:auto;height:auto;border-radius:6px;display:block;margin:0 auto}
+.lightbox figcaption{color:#eef1f4;font-size:15px;text-align:center}
+.lightbox .close{position:absolute;top:max(14px,env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px));font:700 14px var(--f-body);background:#ffcb05;color:#0b0c0e;border:0;border-radius:999px;padding:8px 14px;cursor:pointer}
+
+footer .links{align-items:center}
+.social{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;transition:background .2s}
+.social:hover{background:var(--chip)}
+.foot-mcdb{display:block;margin-right:8px}
+.foot-mcdb img{height:28px;width:auto}
+.foot-mcdb img.logo-on-light{display:block}.foot-mcdb img.logo-on-dark{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .foot-mcdb img.logo-on-dark{display:block}:root:not([data-theme="light"]) .foot-mcdb img.logo-on-light{display:none}}
+:root[data-theme="dark"] .foot-mcdb img.logo-on-dark{display:block}:root[data-theme="dark"] .foot-mcdb img.logo-on-light{display:none}
+.social img{width:22px;height:auto;display:block}
+.social img.logo-on-dark{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .social img.logo-on-dark{display:block}:root:not([data-theme="light"]) .social img.logo-on-light{display:none}}
+:root[data-theme="dark"] .social img.logo-on-dark{display:block}:root[data-theme="dark"] .social img.logo-on-light{display:none}
+.social img.logo-on-light,.social img.logo-on-dark{width:19px}
+.icon-x{display:block;width:19px;height:18px;background:var(--ink);-webkit-mask:url(img/icon-x.png) center/contain no-repeat;mask:url(img/icon-x.png) center/contain no-repeat}
+
+@media (max-width:600px){
+  header.site .wrap{padding-block:10px 8px;gap:6px}
+  .brand img{height:40px}
+  nav.main{width:100%;justify-content:space-between;gap:0;flex-wrap:nowrap}
+  nav.main a{font-size:12.5px;padding:5px 5px}
+  .hero h1{font-size:30px}
+  main{padding-block:28px 56px}
+  section.view{gap:40px}
+  .cell:nth-child(even){--oy:10px}
+  .tissue{row-gap:22px}
+}
+
+/* landing */
+.landing{position:relative;background:var(--band);color:var(--band-ink);overflow:hidden;min-height:100svh;display:grid;place-items:center;padding-block:48px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.landing canvas{position:absolute;inset:auto 0 0 0;width:100%;height:46%;opacity:.4;pointer-events:none}
+.landing-inner{position:relative;display:grid;justify-items:center;gap:40px;text-align:center;max-width:780px}
+.landing-logo{width:min(640px,88vw);height:auto;animation:rise .9s ease-out both}
+.landing-tag{margin:0;font-size:clamp(17px,2.2vw,22px);letter-spacing:.02em;opacity:.85;animation:rise .9s .15s ease-out both}
+.landing-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;animation:rise .9s .2s ease-out both}
+.landing-nav a{text-decoration:none;font-weight:700;font-size:15px;padding:9px 18px;border:2px solid var(--maize);color:var(--band-ink);border-radius:999px;transition:background .2s,color .2s}
+.landing-nav a:hover,.landing-nav a:focus-visible{background:var(--maize);color:var(--on-maize)}
+.landing-foot{margin:6px 0 0;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.6}
+.landing-down{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);color:var(--maize);text-decoration:none;font-size:13px;font-weight:700}
+@keyframes rise{from{opacity:.2;transform:translateY(10px)}to{opacity:1;transform:none}}
+body.on-home header.site,body.on-home main,body.on-home footer.site{display:none}
+body.on-home::before{background:var(--band)}
+body.on-home{background:var(--band)}
+
+.foot-id{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.foot-id img{height:40px;width:auto}
+.logo-on-dark{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo-on-dark{display:block}:root:not([data-theme="light"]) .logo-on-light{display:none}}
+:root[data-theme="dark"] .logo-on-dark{display:block}:root[data-theme="dark"] .logo-on-light{display:none}
+.groupshot{margin:0;display:grid;gap:8px}
+.groupshot img{width:100%;max-width:100%;height:auto;border-radius:6px;display:block;border-bottom:6px solid var(--maize)}
+.groupshot figcaption{font-size:13px;color:var(--muted)}
+.nucleus img{width:100%;height:100%;object-fit:cover;object-position:50% 25%;border-radius:inherit;display:block}
+.cell .nucleus.has-photo{margin-bottom:14%;width:64%;height:auto;aspect-ratio:1;padding:0;overflow:hidden;border:3px solid var(--maize)}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;border-radius:4px;display:block}
+.photo.filled{border:0;background:none;padding:0;aspect-ratio:4/5}
+.pwrap{position:relative}
+.pnav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:0;background:rgba(11,12,14,.55);color:#fff;font:700 24px/1 var(--f-body);cursor:pointer;display:grid;place-items:center;transition:background .15s}
+.pnav:hover,.pnav:focus-visible{background:#ffcb05;color:#0b0c0e}
+.pnav.prev{left:10px}.pnav.next{right:10px}
+.pnav:focus-visible{border-radius:50%!important;outline-offset:2px}
+.pcount{position:absolute;right:10px;bottom:10px;background:rgba(11,12,14,.6);color:#fff;font:700 11px var(--f-body);padding:3px 8px;border-radius:999px}
+
+footer .links{display:flex;gap:16px;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <div class="brandwrap"><a class="brand" href="#home" aria-label="Huycke Lab home"><img src="img/logo-light.png" alt="Huycke Lab" width="110" height="45"></a><a class="mcdb" href="https://lsa.umich.edu/mcdb" target="_blank" rel="noopener"><img src="img/mcdb-logo.png" alt="Molecular, Cellular, and Developmental Biology, LSA, University of Michigan" width="752" height="96"></a></div>
+    <nav class="main" aria-label="Main">
+      <a href="#research">Research</a>
+      <a href="#team">People</a>
+      <a href="#publications">Publications &amp; Media</a>
+      <a href="#news">News</a>
+      <a href="#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<div class="landing" id="landing">
+  <div class="landing-inner">
+    <img class="landing-logo" src="img/logo-light.png" alt="Huycke Lab" width="900" height="365">
+    <nav class="landing-nav" aria-label="Sections">
+      <a href="#research">Research</a><a href="#team">People</a><a href="#publications">Publications &amp; Media</a><a href="#news">News</a><a href="#join">Join us</a>
+    </nav>
+  </div>
+</div>
+
+<main class="wrap">
+
+<!-- HOME -->
+<section class="view" id="v-home"></section>
+
+<!-- RESEARCH -->
+<section class="view" id="v-research" hidden>
+  <div class="hero">
+    <h1>Defining the cellular logic of organ architecture</h1>
+    <p class="lede">We combine long-term live imaging of whole mammalian tissues with genetic and biophysical approaches to find the rules that link cell behavior to organ geometry.</p>
+  </div>
+  <div class="rq-list">
+    <div class="rq">
+      <div class="scope" aria-label="Animation: mesenchymal cells dewet into clusters and villi grow from them in two rounds"><canvas id="combo"></canvas></div>
+      <div><h2>How do local cellular decisions generate organ-scale form?</h2>
+        <p class="lead">During development, cells self-organize based on dynamic local signals, forces, and constraints. Yet organs emerge with remarkably reproducible shapes.</p>
+        <p>We investigate how mechanical and chemical interactions between cellular and extracellular systems coordinate robust architectural pattern and stability. In the mammalian intestine, this plays out in the emergence of millions of stereotyped tissue folds, the villi and crypts. We aim to define the rules that link cell-scale dynamics to organ-scale geometry, with implications for congenital birth defects, diseases where tissue architecture fails, and more complex organoid systems.</p>
+      </div>
+    </div>
+    <div class="rq">
+      <div class="scope" aria-label="Animation: damaged epithelium cracks, villi shrink, mesenchyme reorganizes, and villi regrow"><canvas id="regen"></canvas></div>
+      <div><h2>How do tissues remember their shape?</h2>
+        <p class="lead">When tissues are damaged, their specialized architecture is often lost, leaving simplified or scarred structures.</p>
+        <p>The gastrointestinal tract can reconstruct complex form after injury. We study how tissues retain or recover the information needed to rebuild architecture, how this is coordinated at the cell level, and why these programs are absent in diseases that lead to persistent atrophy. The long-term goal is cellular modules that can be programmed to restore or reinforce organ structure.</p>
+      </div>
+    </div>
+    <div class="rq">
+      <div class="scope"><canvas data-q3="wave" aria-label="Animation: a systemic wave sweeps across cells, which cluster, connect, and change state"></canvas></div>
+      <div><h2>How do systemic states constrain tissue geometry?</h2>
+        <p class="lead">In vivo, self-organization unfolds within a physiological context shaped by maternal state and organismal energetics.</p>
+        <p>We investigate how maternal environment and organismal metabolism define the cues and energy landscapes that guide development, and how systemic and local states are translated into cellular programs that build form. In parallel, we study how acute damage or stress can have lasting consequences in other tissues.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="view" id="v-team" hidden>
+  <div class="hero">
+    <h1>The Lab</h1>
+  </div>
+  <figure class="groupshot"><img src="img/group.jpg" alt="The Huycke Lab group" width="1600" height="916"><figcaption>The Huycke Lab, 2026</figcaption></figure>
+  <div class="team-grid">
+    <div style="display:grid;gap:14px">
+      <div class="tissue" id="tissue" role="group" aria-label="Lab members"></div>
+      <div class="legend"><span class="lg g-pi" style="--cc:#ffcb05">PI</span><span class="lg g-postdoc" style="--cc:#ff9a6a">Postdoc</span><span class="lg g-tech" style="--cc:#bda6f5">Research technician</span><span class="lg g-grad" style="--cc:#5fd6c6">Graduate students</span><span class="lg g-ug" style="--cc:#8fc4ff">Undergraduates</span><span class="lg g-alum" style="--cc:#8a97a5">Alumni</span></div>
+    </div>
+    <aside class="profile" id="profile" aria-live="polite"></aside>
+  </div>
+  <div class="growth">
+    <div class="sechead"><h2>How the lab grew</h2></div>
+    <div class="growth-wrap"><div class="track" id="track"></div></div>
+    <div class="legend-track"><span><i></i>Joined</span><span><i class="out"></i>Graduated or moved on</span></div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section class="view" id="v-publications" hidden>
+  <div class="hero">
+    <h1>Publications &amp; Media</h1>
+    <nav class="jump" aria-label="On this page">
+      <button type="button" data-jump="sec-hl">Highlights</button>
+      <button type="button" data-jump="sec-articles">Research articles</button>
+      <button type="button" data-jump="sec-reviews">Reviews &amp; commentary</button>
+      <button type="button" data-jump="sec-press">Press &amp; features</button>
+      <button type="button" data-jump="sec-talks">Talks &amp; interviews</button>
+    </nav>
+  </div>
+  <div class="hl" id="sec-hl">
+    <article><div class="hlmedia cover"><video src="media/villi-2024.mp4" poster="media/villi-2024-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Movie: mesenchymal cells aggregating as villi form in the fetal mouse gut"></video></div><span class="eyebrow">Intestinal villi</span><h3>How to <em>build</em> villi</h3><p>A mechanical mechanism breaks symmetry in the fetal gut to start villus formation, much like water beading into droplets on a windshield. We called it mesenchymal dewetting.</p><span class="cite">Huycke et al., Cell, 2024</span><a class="more" href="https://www.cell.com/cell/fulltext/S0092-8674%2824%2900465-3" target="_blank" rel="noopener">Read in Cell →</a></article>
+    <article><div class="hlmedia cover"><video src="media/muscle-2019.mp4" poster="media/muscle-2019-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Movie: live imaging of smooth muscle organizing in the developing gut"></video></div><span class="eyebrow">Smooth muscle</span><h3>How to <em>organize</em> muscle</h3><p>Molecular patterning couples with tissue mechanics to force the gut's smooth muscle layers into the alignment they need to move food in the right direction.</p><span class="cite">Huycke et al., Cell, 2019</span><a class="more" href="https://www.cell.com/cell/fulltext/S0092-8674%2819%2930960-2" target="_blank" rel="noopener">Read in Cell →</a></article>
+    <article><div class="hlmedia contain"><video src="media/bone-2012.mp4" poster="media/bone-2012-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Movie: growth of the zebrafish dermal bone in wild type and ihha mutant"></video></div><span class="eyebrow">Dermal bone</span><h3>How to <em>grow</em> bone</h3><p>In the zebrafish skull, Hedgehog signaling drives growth along one edge of a bone, letting one axis expand independently and unique shapes emerge.</p><span class="cite">Huycke et al., Development, 2012</span><a class="more" href="https://journals.biologists.com/dev/article/139/13/2371/45189/Hedgehog-dependent-proliferation-drives-modular" target="_blank" rel="noopener">Read in Development →</a></article>
+  </div>
+  <div>
+    <div class="sechead" id="sec-articles"><h2>Peer-reviewed research articles</h2></div>
+    <ol class="publist" id="publist"></ol>
+  </div>
+  <div>
+    <div class="sechead" id="sec-reviews"><h2>Reviews, perspectives, and commentary</h2></div>
+    <ol class="publist" id="revlist"></ol>
+    <p class="pubnote">*Co-first authors</p>
+  </div>
+  <div>
+    <div class="sechead" id="sec-press"><h2>Press and features</h2></div>
+    <ol class="publist" id="presslist"></ol>
+  </div>
+  <div>
+    <div class="sechead" id="sec-talks"><h2>Recorded talks and interviews</h2></div>
+    <ol class="publist" id="talklist"></ol>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section class="view" id="v-news" hidden>
+  <div class="hero">
+    <h1>Lab notebook</h1>
+  </div>
+  <div class="filters" id="filters" role="group" aria-label="Filter news"></div>
+  <div id="news-years" style="display:grid;gap:40px"></div>
+</section>
+
+<!-- JOIN -->
+<section class="view" id="v-join" hidden>
+  <div class="hero">
+    <h1>Opportunities</h1>
+    <p class="lede">We are building an interdisciplinary team. Experimental biologists, engineers, physicists, and computational scientists are all welcome.</p>
+  </div>
+  <div class="roles">
+    <article><span class="status open">Recruiting</span><h3>Postdocs</h3><p>Expertise in developmental, cell, and/or regenerative biology, or an engineering, physics, or computational background with interest in training in experimental biology.</p><p>Send a cover letter on your research interests and fit, plus a CV with three references.</p></article>
+    <article><span class="status open">Rotations</span><h3>Ph.D. students</h3><p>We take rotation students from the <a href="https://lsa.umich.edu/mcdb/prospective-students/phd-program.html" target="_blank" rel="noopener">MCDB</a> and <a href="https://medschool.umich.edu/interdisciplinary-programs/cellular-molecular-biology-graduate-program" target="_blank" rel="noopener">PIBS/CMB</a> Ph.D. programs. Email to discuss rotation projects.</p></article>
+    <article><span class="status open">Via MCDB</span><h3>Master's students</h3><p>Apply through the <a href="https://lsa.umich.edu/mcdb/prospective-students/pathways-masters-program.html" target="_blank" rel="noopener">Pathways</a> or <a href="https://lsa.umich.edu/mcdb/prospective-students/masters-program.html" target="_blank" rel="noopener">Traditional</a> Master's programs in MCDB.</p></article>
+    <article><span class="status closed">No openings</span><h3>Undergraduates</h3><p>We don't have undergraduate openings right now. Please check back later.</p></article>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+    <span class="email" id="em">thuycke@umich.edu</span><button class="copy" id="copy" type="button">Copy email</button>
+  </div>
+</section>
+</main>
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Photo"><button type="button" class="close" id="lb-close">Close</button><button type="button" class="lb-nav prev" id="lb-prev" aria-label="Previous photo">‹</button><figure><img id="lb-img" alt=""><figcaption id="lb-cap"></figcaption></figure><button type="button" class="lb-nav next" id="lb-next" aria-label="Next photo">›</button></div>
+
+<footer class="site">
+  <div class="wrap">
+    <span class="foot-id"><img class="logo-on-light" src="img/logo-dark.png" alt="Huycke Lab" height="40"><img class="logo-on-dark" src="img/logo-light.png" alt="Huycke Lab" height="40"><span>Molecular, Cellular, and Developmental Biology · University of Michigan</span></span>
+    <span class="links"><a href="https://lsa.umich.edu/mcdb" target="_blank" rel="noopener">MCDB</a><a class="social" href="https://bsky.app/profile/thuycke.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky"><img src="img/icon-bluesky.png" alt="" width="22" height="20"></a><a class="social" href="https://x.com/thuycke" target="_blank" rel="noopener" aria-label="X"><img class="logo-on-light" src="img/icon-x-dark.png" alt="" width="19" height="18"><img class="logo-on-dark" src="img/icon-x-light.png" alt="" width="19" height="18"></a><a class="social" href="https://www.linkedin.com/in/thuycke" target="_blank" rel="noopener" aria-label="LinkedIn"><img src="img/icon-linkedin.png" alt="" width="22" height="22"></a></span>
+  </div>
+</footer>
+
+<script>
+/* ---------- content (edit these lists to update the site) ---------- */
+const NEWS=[
+ ["2026-10-30","The lab celebrates Halloween","Event",false,null,["img/news/halloween-2026-a.jpg","img/news/halloween-2026-b.jpg"],"50% 60%"],
+ ["2026-09-27","Rei presents her work at Midwest SDB","Event",false,null,"img/news/rei-mwsdb-2026.jpg","35% 50%"],
+ ["2026-09-27","Irene wins a best poster award at Midwest SDB","Award",false,null,"img/news/irene-mwsdb-2026.jpg","50% 55%"],
+ ["2026-09-01","The lab is awarded an NIGMS R35 (MIRA) grant","Award",true,null,"img/news/nigms-r35-2026.png","contain"],
+ ["2026-08-24","The lab attends the Santa Cruz Developmental Biology Meeting","Event",false,null,["img/news/santa-cruz-2026.jpg","img/news/santa-cruz-2026-b.jpg","img/news/santa-cruz-2026-c.jpg","img/news/santa-cruz-2026-d.jpg"],"70% 72%"],
+ ["2026-07-20","Joint lab retreat with the Miller, West, and Edwards labs","Event",false,null,"img/news/retreat-2026.jpg"],
+ ["2026-07-10","The 2026 MCDB Horizons interns present their summer projects","Event",false,null,"img/news/horizons-2026.jpg"],
+ ["2026-07-10","Steven presents his MCDB Horizons summer research project","People",false,null,"img/news/steven-poster-2026.jpg","50% 45%"],
+ ["2026-07-01","Tyler is named a 2026 Searle Scholar","Award",true,null,"img/news/searle-2026.png","contain"],
+ ["2026-06-08","Tyler receives a 2026 Ralph E. Powe Junior Faculty Enhancement Award","Award",false,null,"img/news/orau-powe-2026.jpg","contain"],
+ ["2026-05-22","Irene passes her checkpoint 2 exam","Milestone",false,null,"img/news/irene-checkpoint2-2026.jpg","50% 42%"],
+ ["2026-05-21","The lab celebrates Richard's graduation","Milestone",false,null,"img/news/richard-graduation-2026.jpg","50% 45%"],
+ ["2026-05-06","LeCaine and Jiaxuan pass their checkpoint 1 exams","Milestone",false,null,"img/news/checkpoint1-2026.jpg","50% 35%"],
+ ["2026-05-06","Jiaxuan and LeCaine join the lab","People",false,null,"img/news/jiaxuan-lecaine-join-2026.jpg","50% 45%"],
+ ["2026-05-06","Tyler attends the Takeda/Nature Awards Ceremony","Award",false,null,"img/news/takeda-ceremony-2026.jpg","45% 45%"],
+ ["2026-02-22","Tyler is shortlisted for the Takeda/Nature Innovators in Science Award","Award",false,"https://www.nature.com/immersive/innovatorsinscience/winners/index.html","img/news/takeda-shortlist-2026.jpg","50% 40%"],
+ ["2025-12-05","Members of the lab attend ASCB in Philadelphia","Event",false,null,"img/news/ascb-2025.jpg"],
+ ["2025-05-01","Rei joins the lab","People",false,null,"img/news/rei-joins-2025.jpg","50% 55%"],
+ ["2025-04-01","Irene joins the lab","People",false,null,"img/news/irene-joins-2025.jpg","60% 38%"],
+ ["2025-01-27","Lucas joins the lab","People",false,null,"img/news/lucas-joins-2025.jpg","60% 45%"],
+ ["2025-01-20","The Huycke Lab opens its doors at the University of Michigan","Milestone",true,null,"img/news/lab-opens-2025.jpg","50% 45%"]
+];
+const PEOPLE=[
+ {id:"tyler",group:"pi",name:"Tyler Huycke, PhD",short:"Tyler",kind:"pi",role:"Principal Investigator",title:["Assistant Professor","Department of Molecular, Cellular, and Developmental Biology"],joined:"2025-01",photo:"img/head-1.jpg",
+  facts:{"B.S.":"University of Oregon","Ph.D.":"Harvard Medical School","Postdoc":"UCSF","Honors":"2026 Searle Scholar · 2026 Ralph E. Powe Award · Takeda/Nature Innovators in Science shortlist","Contact":"thuycke@umich.edu"}},
+ {id:"rei",group:"postdoc",name:"Rei Yagasaki, PhD",short:"Rei",kind:"member",role:"Postdoctoral Fellow",joined:"2025-05",background:"Ph.D., Kyoto University",photo:"img/head-8.jpg"},
+ {id:"lucas",group:"tech",name:"Lucas Pineiro",short:"Lucas",kind:"member",role:"Research Technician",joined:"2025-01-27",background:"B.S., Cornell University; Master's, UC Riverside",photo:"img/head-6.jpg"},
+ {id:"irene",group:"grad",name:"Irene Jin",short:"Irene",kind:"member",role:"Ph.D. student, MCDB · 3rd year",joined:"2025-04",background:"B.S., Duke Kunshan University",photo:"img/head-3.jpg"},
+ {id:"lecaine",group:"grad",name:"LeCaine Barker",short:"LeCaine",kind:"member",role:"Ph.D. student, MCDB · 2nd year",joined:"2026-05",background:"B.A., Cornell College",photo:"img/head-5.jpg"},
+ {id:"jiaxuan",group:"grad",name:"Jiaxuan Liang",short:"Jiaxuan",kind:"member",role:"Ph.D. student, MCDB · 2nd year",joined:"2026-05",background:"B.S., Jilin University",photo:"img/head-4.jpg"},
+ {id:"april",group:"grad",name:"April Dembinski",short:"April",kind:"member",role:"Master's student, MCDB Pathways",joined:"2026-08",background:"B.S., Eastern Michigan University",photo:"img/head-2.jpg"},
+ {id:"steven",group:"ug",name:"Steven Nkurunziza",short:"Steven",kind:"member",role:"Undergraduate, MCDB Horizons",joined:"2026-06",photo:"img/head-9.jpg"},
+ {id:"cassia",group:"ug",name:"Cassia Rubio-Turtle",short:"Cassia",kind:"member",role:"Undergraduate researcher",joined:null,photo:null},
+ {id:"liela",group:"ug",name:"Liela Yazjie",short:"Liela",kind:"member",role:"Undergraduate researcher",joined:null,photo:null},
+ {id:"richard",group:"alum",name:"Richard Moulton",short:"Richard",kind:"alum",role:"Undergraduate researcher (graduated 2026)",joined:null,left:"2026-05-21",leftLabel:"graduated",photo:"img/head-7.jpg"}
+];
+const ARTICLES=[[2024, "Patterning and folding of intestinal villi by active mesenchymal dewetting", "Huycke TR*, Häkkinen TJ*, Miyazaki H*, Srivastava V, Barruet E, McGinnis CS, Kalantari A, Cornwall-Scoones J, Vaka D, Zhu Q, Jo H, DeGrado WF, Thomson M, Garikipati K, Boffelli D, Klein OD, Gartner ZJ", "Cell", "187, 3072–3089", "https://www.cell.com/cell/fulltext/S0092-8674%2824%2900465-3", "Highlighted Article"], [2024, "Hox genes modulate physical forces to differentially shape small and large intestinal epithelia", "Gill HK, Yin S, Nerurkar NL, Lawlor JC, Lee C, Huycke TR, Mahadevan L, Tabin CJ", "Developmental Cell", "59(21), 2834–2849.e9", "https://pubmed.ncbi.nlm.nih.gov/39116876/", ""], [2024, "The developmental mechanics of divergent buckling patterns in the chick gut", "Gill HK, Yin S, Lawlor JC, Huycke TR, Nerurkar NL, Tabin CJ, Mahadevan L", "PNAS", "121(28), e2310992121", "https://pubmed.ncbi.nlm.nih.gov/38968105/", ""], [2019, "Genetic and mechanical regulation of intestinal smooth muscle development", "Huycke TR, Miller BM, Gill HK, Nerurkar NL, Sprinzak D, Mahadevan L, Tabin CJ", "Cell", "179, 90–105", "https://www.cell.com/cell/fulltext/S0092-8674%2819%2930960-2", ""], [2016, "Scaling pattern to variations in size during development of the vertebrate neural tube", "Uygur A, Young J, Huycke TR, Koska M, Briscoe J, Tabin CJ", "Developmental Cell", "37, 127–135", "https://doi.org/10.1016/j.devcel.2016.03.024", ""], [2015, "Bending gradients: how the intestinal stem cell gets its home", "Shyer AE, Huycke TR, Lee C, Mahadevan L, Tabin CJ", "Cell", "161, 569–580", "https://doi.org/10.1016/j.cell.2015.03.041", ""], [2014, "Role of mef2ca in developmental buffering of the zebrafish larval hyoid dermal skeleton", "DeLaurier A*, Huycke TR*, Nichols JT, Swartz ME, Larsen A, Walker C, Dowd J, Pan L, Moens CB, Kimmel CB", "Developmental Biology", "385, 189–199", "https://doi.org/10.1016/j.ydbio.2013.11.016", ""], [2013, "FishFace: interactive atlas of zebrafish craniofacial development at cellular resolution", "Eames BF, DeLaurier A, Ullmann B, Huycke TR, Nichols JT, Dowd J, McFadden M, Sasaki MM, Kimmel CB", "BMC Developmental Biology", "13, 23", "https://doi.org/10.1186/1471-213x-13-23", ""], [2012, "fras1 shapes endodermal pouch 1 and stabilizes zebrafish pharyngeal skeletal development", "Talbot JC, Walker MB, Carney TJ, Huycke TR, Yan YL, BreMiller RA, Gai L, DeLaurier A, Postlethwait JH, Hammerschmidt M, Kimmel CB", "Development", "139, 2804–2813", "https://journals.biologists.com/dev/article/139/15/2804/45137/fras1-shapes-endodermal-pouch-1-and-stabilizes", ""], [2012, "Hedgehog-dependent proliferation drives modular growth during morphogenesis of a dermal bone", "Huycke TR, Eames BF, Kimmel CB", "Development", "139, 2371–2380", "https://journals.biologists.com/dev/article/139/13/2371/45189/Hedgehog-dependent-proliferation-drives-modular", "Featured Article"]];
+const REVIEWS=[[2022, "Setting boundaries for tissue patterning", "Huycke TR, Gartner ZJ", "Science", "375(6576), 26–27", "https://doi.org/10.1126/science.abn3054", "Perspective"], [2020, "Organoid models for mammary gland dynamics and breast cancer", "Srivastava V, Huycke TR, Phong KT, Gartner ZJ", "Current Opinion in Cell Biology", "66, 51–58", "https://www.sciencedirect.com/science/article/abs/pii/S0955067420300661", "Review"], [2018, "Chick midgut morphogenesis", "Huycke TR, Tabin CJ", "International Journal of Developmental Biology", "62, 109–119", "https://doi.org/10.1387/ijdb.170325ct", "Invited Review"]];
+
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const fmt=d=>{const[y,m,dd]=d.split("-");return MON[+m-1]+" "+(+dd)};
+
+/* ---------- news ---------- */
+function newsItem(n,big){
+  const [d,t,c,feat,link,photo,focus]=n;
+  return `<li class="item${big&&feat?" big":""}${photo?(focus==="contain"?" has-logo":" has-photo"):""}" data-cat="${c}"><span class="d">${fmt(d)}</span><div><h3>${esc(t)}</h3><span class="tag">${c}${link?` · <a href="${link}" target="_blank" rel="noopener">link</a>`:""}</span></div>${photo?`<button type="button" class="thumb" data-src="${[].concat(photo).join("|")}" data-cap="${esc(t)}" aria-label="View photo: ${esc(t)}"><img src="${[].concat(photo)[0]}" alt="" loading="lazy"${focus&&focus!=="contain"?` style="object-position:${focus}"`:""}>${[].concat(photo).length>1?`<span class="count">1 / ${[].concat(photo).length}</span>`:""}</button>`:""}</li>`;
+}
+let cat="All";
+let LB={srcs:[],i:0,cap:""};
+function showLB(){const n=LB.srcs.length;$("#lb-img").src=LB.srcs[LB.i];$("#lb-img").alt=LB.cap;$("#lb-cap").textContent=LB.cap+(n>1?`  (${LB.i+1} of ${n})`:"");$("#lb-prev").hidden=$("#lb-next").hidden=n<2}
+function openLB(src,cap){LB={srcs:src.split("|"),i:0,cap};showLB();$("#lightbox").hidden=false;$("#lb-close").focus()}
+function stepLB(d){if(LB.srcs.length<2)return;LB.i=(LB.i+d+LB.srcs.length)%LB.srcs.length;showLB()}
+function closeLB(){$("#lightbox").hidden=true}
+document.addEventListener("click",e=>{const b=e.target.closest(".thumb");if(b){openLB(b.dataset.src,b.dataset.cap);return}if(e.target.closest("#lb-prev")){stepLB(-1);return}if(e.target.closest("#lb-next")){stepLB(1);return}if(e.target.closest("#lightbox")&&!e.target.closest("#lb-img"))closeLB()});
+document.addEventListener("keydown",e=>{if($("#lightbox").hidden)return;if(e.key==="Escape")closeLB();if(e.key==="ArrowLeft")stepLB(-1);if(e.key==="ArrowRight")stepLB(1)});
+function renderNews(){
+  const list=NEWS.filter(n=>cat==="All"||n[2]===cat);
+  const years=[...new Set(list.map(n=>n[0].slice(0,4)))];
+  $("#news-years").innerHTML=years.map(y=>`<div class="year"><h2>${y}</h2><ul class="items">${list.filter(n=>n[0].startsWith(y)).map(n=>newsItem(n,true)).join("")}</ul></div>`).join("")||`<p class="todo">Nothing in this category yet.</p>`;
+  const cats=["All","Award","People","Milestone","Event"];
+  $("#filters").innerHTML=cats.map(c=>`<button type="button" aria-pressed="${c===cat}" data-c="${c}">${c==="People"?"Arrivals":c==="Event"?"Events":c==="Award"?"Awards":c==="Milestone"?"Milestones":c}<span class="n">${c==="All"?NEWS.length:NEWS.filter(n=>n[2]===c).length}</span></button>`).join("");
+}
+$("#filters").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;cat=b.dataset.c;renderNews()});
+renderNews();
+
+/* ---------- people ---------- */
+let sel="tyler";
+function initials(n){return n.split(" ").map(w=>w[0]).join("").slice(0,2)}
+function renderTissue(){
+  $("#tissue").innerHTML=PEOPLE.map(p=>`<button type="button" class="cell ${p.kind} g-${p.group}" style="--i:${PEOPLE.indexOf(p)}" data-id="${p.id}" aria-pressed="${p.id===sel}" aria-label="${esc(p.name)}">${p.photo?`<span class="nucleus has-photo"><img src="${p.photo}" alt="" loading="lazy"></span>`:`<span class="nucleus">${initials(p.name)}</span>`}<small>${esc(p.short)}</small></button>`).join("");
+  const p=PEOPLE.find(x=>x.id===sel);
+  const joined=p.joined?MON[+p.joined.slice(5,7)-1]+" "+p.joined.slice(0,4):"—";
+  const facts=p.facts||(p.background?{"Background":esc(p.background)}:{});
+  const idx=PEOPLE.indexOf(p),N=PEOPLE.length,prevP=PEOPLE[(idx-1+N)%N],nextP=PEOPLE[(idx+1)%N];
+  $("#profile").innerHTML=`<div class="pwrap">${p.photo?`<div class="photo filled"><img src="${p.photo}" alt="${esc(p.name)}"></div>`:`<div class="photo">Headshot coming soon</div>`}<button type="button" class="pnav prev" data-step="-1" aria-label="Previous: ${esc(prevP.name)}">‹</button><button type="button" class="pnav next" data-step="1" aria-label="Next: ${esc(nextP.name)}">›</button><span class="pcount">${idx+1} / ${N}</span></div>
+   <div><span class="eyebrow">${({pi:"Principal investigator",postdoc:"Postdoc",tech:"Research technician",grad:"Graduate student",ug:"Undergraduate",alum:"Alumni"})[p.group]||"Current member"}</span><h2>${esc(p.name)}</h2>
+   <div class="role">${p.role?esc(p.role):'<span class="todo">Role to add</span>'}</div>${p.title?`<div class="ptitle">${p.title.map(esc).join("<br>")}</div>`:""}</div>
+   <dl class="facts">${p.joined?`<dt>${p.kind==="pi"?"Started the lab":"Joined"}</dt><dd class="mono">${joined}</dd>`:""}${p.left?`<dt>${(p.leftLabel||"Left").replace(/^./,c=>c.toUpperCase())}</dt><dd class="mono">${MON[+p.left.slice(5,7)-1]} ${p.left.slice(0,4)}</dd>`:""}${Object.entries(facts).map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>`;
+}
+function stepPerson(d){const i=PEOPLE.findIndex(x=>x.id===sel);sel=PEOPLE[(i+d+PEOPLE.length)%PEOPLE.length].id;renderTissue();const b=$(`#profile .pnav.${d<0?"prev":"next"}`);if(b)b.focus({preventScroll:true})}
+$("#profile").addEventListener("click",e=>{const b=e.target.closest(".pnav");if(b)stepPerson(+b.dataset.step)});
+$("#profile").addEventListener("keydown",e=>{if(e.key==="ArrowLeft"){e.preventDefault();stepPerson(-1)}if(e.key==="ArrowRight"){e.preventDefault();stepPerson(1)}});
+{let sx=null;$("#profile").addEventListener("touchstart",e=>{if(e.target.closest(".pwrap"))sx=e.touches[0].clientX},{passive:true});$("#profile").addEventListener("touchend",e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;sx=null;if(Math.abs(dx)>40)stepPerson(dx<0?1:-1)},{passive:true})}
+$("#tissue").addEventListener("click",e=>{const b=e.target.closest(".cell");if(!b)return;sel=b.dataset.id;renderTissue();if(innerWidth<860)$("#profile").scrollIntoView({behavior:"smooth",block:"start"})});
+renderTissue();
+(function track(){
+  const start=new Date("2025-01-01"),end=new Date("2026-11-01"),span=end-start;
+  const pos=d=>((new Date(d)-start)/span*100).toFixed(2)+"%";
+  let h="";
+  ["2025-01","2025-07","2026-01","2026-07"].forEach(m=>h+=`<span class="tick" style="left:${pos(m+"-01")}">${MON[+m.slice(5)-1]} ${m.slice(0,4)}</span>`);
+  const ev={};
+  PEOPLE.forEach(p=>{if(p.joined){const k=p.joined+"|in";(ev[k]=ev[k]||[]).push(p.short)}if(p.left){const k=p.left+"|out|"+(p.leftLabel||"moved on");(ev[k]=ev[k]||[]).push(p.short)}});
+  const tw=Math.max(640,($("#track").clientWidth||900)),ends=[],endsOut=[];
+  Object.entries(ev).sort((a,b)=>a[0]<b[0]?-1:1).forEach(([k,names])=>{const [m,dir,lab]=k.split("|");const out=dir==="out";
+    const d=m.length>7?m:m+"-01",px=(new Date(d)-start)/span*tw,text=names.join(" & ")+(out?" "+lab:""),w=text.length*7+12;
+    const E=out?endsOut:ends;let lv=0;while(E[lv]!==undefined&&E[lv]>px)lv++;E[lv]=px+w;
+    h+=`<span class="pip${out?" out":""}" style="left:${pos(d)};height:${out?30+lv*20:18+lv*20}px"><span>${names.join(" & ")}${out?` <em>${lab}</em>`:""}</span></span>`});
+  $("#track").innerHTML=h;
+})();
+
+/* ---------- pubs ---------- */
+const PRESS=[[2026, "LSA developmental biologist receives early-career award for innovative research", "University of Michigan, College of LSA", "https://lsa.umich.edu/lsa/news-events/all-news/search-news/lsa-developmental-biologist-receives-early-career-award-for-inno.html"], [2026, "Scholar profile", "Searle Scholars Program", "https://searlescholars.org/tyler-huycke/"], [2025, "It takes a villus to build a career", "Society for Developmental Biology", "https://www.sdbonline.org/resource?ResourceID=4533"]];
+const TALKS=[[2023, "How the gut got its spots", "UCSF Postdoc Slam", "https://youtu.be/__NAM2XzJek"], [2023, "Development presents… virtual seminar", "The Company of Biologists, Development", "https://youtu.be/ZIBgVpJePT0"], [2022, "An interview with Tyler Huycke", "Development 149(19), dev201267", "https://journals.biologists.com/dev/article/149/19/dev201267/277101/An-interview-with-Tyler-Huycke"]];
+const mediaItem=([y,t,o,u])=>`<li><span class="y">${y}</span><div><div class="t">${u?`<a href="${u}" target="_blank" rel="noopener">${esc(t)} <span class="ext" aria-hidden="true">↗</span></a>`:esc(t)}</div><div class="a">${esc(o)}</div></div></li>`;
+const pubItem=([y,t,a,j,v,u,tag])=>`<li><span class="y">${y}</span><div><div class="t">${u?`<a href="${u}" target="_blank" rel="noopener">${esc(t)} <span class="ext" aria-hidden="true">↗</span></a>`:esc(t)}</div><div class="a">${esc(a).replace(/Huycke TR(\*?)/g,"<b>Huycke TR$1</b>")}</div><div class="j"><i>${esc(j)}</i> ${esc(v)}${tag?` <span class="ptag">${esc(tag)}</span>`:""}</div></div></li>`;
+$("#publist").innerHTML=ARTICLES.map(pubItem).join("");
+$("#revlist").innerHTML=REVIEWS.map(pubItem).join("");
+$("#presslist").innerHTML=PRESS.map(mediaItem).join("");
+$("#talklist").innerHTML=TALKS.map(mediaItem).join("");
+
+/* ---------- copy email ---------- */
+$("#copy").addEventListener("click",()=>{const t="thuycke@umich.edu";const b=$("#copy");
+  const sel=()=>{const r=document.createRange();r.selectNodeContents($("#em"));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected, press copy"};
+  try{navigator.clipboard.writeText(t).then(()=>b.textContent="Copied",sel)}catch(e){sel()}});
+
+/* ---------- routing ---------- */
+const VIEWS=["home","research","team","publications","news","join"];
+if(location.hash==="#media")location.replace("#publications");
+function route(){
+  const v=VIEWS.includes(location.hash.slice(1))?location.hash.slice(1):"home";
+  VIEWS.forEach(x=>$("#v-"+x).hidden=x!==v);
+  $("#landing").hidden=v!=="home";document.body.classList.toggle("on-home",v==="home");
+  document.querySelectorAll("nav.main a").forEach(a=>{if(a.getAttribute("href")==="#"+v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  window.scrollTo(0,0);drawAll();
+}
+addEventListener("hashchange",route);
+if(matchMedia("(prefers-reduced-motion: reduce)").matches)document.querySelectorAll(".hlmedia video").forEach(v=>{v.removeAttribute("autoplay");v.pause();v.controls=true});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-jump]");if(!b)return;const t=document.getElementById(b.dataset.jump);if(t)t.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"})});
+
+
+/* ---------- scope scenes ---------- */
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function rnd(seed){return()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646}}
+function scene(cv,t){
+  const r=cv.getBoundingClientRect();if(!r.width)return;
+  const dpr=Math.min(devicePixelRatio||1,2),W=r.width,H=r.height;
+  if(cv.width!==Math.round(W*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr)}
+  const g=cv.getContext("2d");g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);
+  const kind=cv.dataset.scene, R=rnd(kind==="field"?11:kind==="crypts"?7:3);
+  if(kind==="field"){
+    for(let i=0;i<70;i++){const x=R()*W,y=R()*H,s=14+R()*26,ph=R()*6;
+      g.save();g.translate(x,y);g.rotate(ph+t*.0001);g.strokeStyle="rgba(255,203,5,.75)";g.lineWidth=1.5;g.beginPath();
+      for(let k=0;k<=6;k++){const a=k/6*Math.PI*2,rr=s*(1+.15*Math.sin(a*3+ph));g.lineTo(Math.cos(a)*rr,Math.sin(a)*rr)}g.stroke();
+      g.fillStyle="rgba(127,176,232,.85)";g.beginPath();g.arc(0,0,s*.32,0,7);g.fill();g.restore()}
+    return;
+  }
+  const n=kind==="crypts"?5:Math.max(4,Math.round(W/150)),base=H*(kind==="crypts"?.4:.72),amp=H*(kind==="crypts"?.26:.42);
+  const grow=kind==="villi"&&!reduce?.82+.18*Math.sin(t*.0006):1;
+  const y=x=>{const p=x/W*n*Math.PI*2;const s=Math.sin(p-Math.PI/2);const f=kind==="crypts"?-Math.pow(Math.max(0,-s),1.6)+.3*s:Math.pow(Math.max(0,s),.7)-.15;return base-amp*f*grow};
+  // mesenchyme speckle
+  g.fillStyle="rgba(127,176,232,.18)";for(let i=0;i<260;i++){const x=R()*W,yy=y(x)+8+R()*(H-y(x));g.beginPath();g.arc(x,yy,1.2+R()*1.6,0,7);g.fill()}
+  // epithelium band
+  const N=Math.round(W/5),th=16;
+  const pts=[];for(let i=0;i<=N;i++){const x=i/N*W;pts.push([x,y(x)])}
+  g.lineWidth=2;g.strokeStyle="rgba(255,203,5,.95)";g.beginPath();pts.forEach(([x,yy],i)=>i?g.lineTo(x,yy):g.moveTo(x,yy));g.stroke();
+  g.strokeStyle="rgba(255,203,5,.55)";g.beginPath();pts.forEach(([x,yy],i)=>{const nx=pts[Math.min(i+1,N)],px=pts[Math.max(i-1,0)];const dx=nx[0]-px[0],dy=nx[1]-px[1],L=Math.hypot(dx,dy)||1;const X=x-dy/L*th,Y=yy+dx/L*th;i?g.lineTo(X,Y):g.moveTo(X,Y)});g.stroke();
+  // cell boundaries + nuclei along arc length
+  let acc=0;const step=11;
+  for(let i=1;i<=N;i++){const[x0,y0]=pts[i-1],[x1,y1]=pts[i];acc+=Math.hypot(x1-x0,y1-y0);
+    if(acc>=step){acc=0;const dx=x1-x0,dy=y1-y0,L=Math.hypot(dx,dy)||1,nx=-dy/L,ny=dx/L;
+      g.strokeStyle="rgba(255,203,5,.6)";g.lineWidth=1;g.beginPath();g.moveTo(x1,y1);g.lineTo(x1+nx*th,y1+ny*th);g.stroke();
+      g.fillStyle="rgba(127,176,232,.95)";g.beginPath();g.ellipse(x1+nx*th*.5-dx/L*5,y1+ny*th*.5-dy/L*5,2.6,4.2,Math.atan2(ny,nx),0,7);g.fill()}}
+}
+let raf;
+function drawAll(t=0){document.querySelectorAll("canvas[data-scene]").forEach(c=>{if(c.offsetParent)scene(c,t)})}
+function loop(t){drawAll(t);raf=requestAnimationFrame(loop)}
+addEventListener("resize",()=>drawAll(performance.now()));
+route();
+if(!reduce)raf=requestAnimationFrame(loop);
+</script>
+<script>
+(function(){
+const c=document.getElementById('combo');if(!c)return;
+const M='255,203,5',B='127,176,232';
+function R(s){return()=>(s=(s*16807)%2147483647)/2147483647}
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const r=R(7);
+const A=.44,centers=[];
+for(let j=-3;j<=3;j++)for(let i=-3;i<=3;i++){const x=(i+(j&1?.5:0))*A,z=j*A*.866;if(Math.abs(x)<.98&&Math.abs(z)<.94)centers.push({x,z,gen:1,h:.4+r()*.1,d:r()*.15})}
+const g1=centers.slice();
+for(let a=0;a<g1.length;a++)for(let b=a+1;b<g1.length;b++)for(let e=b+1;e<g1.length;e++){
+  const P=[g1[a],g1[b],g1[e]];const dd=(p,q)=>Math.hypot(p.x-q.x,p.z-q.z);
+  if(dd(P[0],P[1])<A*1.05&&dd(P[0],P[2])<A*1.05&&dd(P[1],P[2])<A*1.05){
+    const x=(P[0].x+P[1].x+P[2].x)/3,z=(P[0].z+P[1].z+P[2].z)/3;centers.push({x,z,gen:2,h:.34+r()*.1,d:r()*.2})}}
+const crypts=[];{const v=centers,L=A/Math.sqrt(3)*1.12,dd=(p,q)=>Math.hypot(p.x-q.x,p.z-q.z);for(let i=0;i<v.length;i++)for(let j=i+1;j<v.length;j++){if(dd(v[i],v[j])>L)continue;for(let k=j+1;k<v.length;k++){if(dd(v[i],v[k])>L||dd(v[j],v[k])>L)continue;const x=(v[i].x+v[j].x+v[k].x)/3,z=(v[i].z+v[j].z+v[k].z)/3;if(Math.abs(x)<.95&&Math.abs(z)<.95)crypts.push({x,z,d:r()*.25})}}}
+const cells=[];
+for(let i=0;i<820;i++){const x=r()*2-1,z=r()*2-1;let best=0,bd=9;centers.forEach((q,k)=>{const dd=(q.x-x)**2+(q.z-z)**2;if(dd<bd){bd=dd;best=k}});
+  const a=r()*6.283,rr=Math.sqrt(r())*.06;cells.push({x,z,k:best,ox:Math.cos(a)*rr,oz:Math.sin(a)*rr,f1:.4+r()*.6,f2:.4+r()*.6,p1:r()*6.283,p2:r()*6.283})}
+const surf=[];centers.forEach((q,k)=>{for(let s=0;s<30;s++)surf.push({k,a:r()*6.283,u:.08+r()*.85})});
+let W,H,scale,tilt=.82,yaw=0;const sinT=Math.sin(tilt);
+function proj(x,y,z){const cy=Math.cos(yaw),sy=Math.sin(yaw);const x1=x*cy-z*sy,z1=x*sy+z*cy;
+  const y2=y*Math.cos(tilt)+z1*sinT,d=-y*sinT+z1*Math.cos(tilt);const s=6/(6+d);
+  return[W/2+x1*s*scale,H*.52-y2*s*scale,s,d]}
+const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function frame(t){
+  W=c.clientWidth;H=c.clientHeight;if(!W){if(!RM)requestAnimationFrame(frame);return}
+  const dpr=Math.min(devicePixelRatio||1,2);if(c.width!==Math.round(W*dpr)){c.width=Math.round(W*dpr);c.height=Math.round(H*dpr)}
+  const g=c.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);
+  scale=Math.min(W*.33,H*.44);
+  const T=t/1000,cyc=(T%28)/28;
+  yaw=.35*Math.sin(T*.11);
+  const mig={1:ease(clamp((cyc-.08)/.13,0,1)),2:ease(clamp((cyc-.35)/.11,0,1))};
+  const grow={1:ease(clamp((cyc-.19)/.16,0,1)),2:ease(clamp((cyc-.44)/.16,0,1))};
+  const cg=clamp((cyc-.63)/.17,0,1);
+  const camp=crypts.map(q=>ease(clamp((cg-q.d)/(1-q.d),0,1)));
+  const fade=cyc>.94?1-(cyc-.94)/.06:cyc<.03?cyc/.03:1;
+  g.globalAlpha=fade;
+  const amp=centers.map(q=>{const gl=clamp((grow[q.gen]-q.d)/(1-q.d),0,1);return ease(gl)});
+  const height=(x,z)=>{let h=0;for(let k=0;k<centers.length;k++){const a=amp[k];if(!a)continue;const q=centers[k],sg=q.gen===1?.085:.07,dx=x-q.x,dz=z-q.z,d2=dx*dx+dz*dz;if(d2>.09)continue;h+=a*(q.gen===1?.17:.14)*Math.exp(-d2/(2*sg*sg))}for(let k=0;k<crypts.length;k++){const a=camp[k];if(!a)continue;const q=crypts[k],dx=x-q.x,dz=z-q.z,d2=dx*dx+dz*dz;if(d2>.03)continue;h-=a*.13*Math.exp(-d2/(2*.036*.036))}return h};
+  cells.forEach(p=>{const q=centers[p.k],m=mig[q.gen];
+    const wx=clamp(p.x+.06*Math.sin(T*p.f1+p.p1),-1,1),wz=clamp(p.z+.06*Math.cos(T*p.f2+p.p2),-1,1);
+    const x=wx+(q.x+p.ox+.004*Math.sin(T*2+p.p1)-wx)*m,z=wz+(q.z+p.oz-wz)*m;const s=proj(x,height(x,z)*.45,z);
+    g.fillStyle=`rgba(${B},.9)`;g.beginPath();g.ellipse(s[0],s[1],2.2*s[2],2.2*s[2]*sinT,0,0,7);g.fill()});
+  const NG=60,V=[];
+  for(let j=0;j<=NG;j++){const row=[];for(let i=0;i<=NG;i++){const x=-1+2*i/NG,z=-1+2*j/NG,h=height(x,z);row.push({h,p:proj(x,h,z)})}V.push(row)}
+  const quads=[];
+  for(let j=0;j<NG;j++)for(let i=0;i<NG;i++){const a=V[j][i],b=V[j][i+1],c2=V[j+1][i+1],d=V[j+1][i];
+    quads.push({pts:[a.p,b.p,c2.p,d.p],depth:(a.p[3]+b.p[3]+c2.p[3]+d.p[3])/4,sx:(b.h-a.h+c2.h-d.h)*NG/4,sz:(d.h-a.h+c2.h-b.h)*NG/4,hm:(a.h+b.h+c2.h+d.h)/4})}
+  quads.sort((u,v)=>v.depth-u.depth);
+  quads.forEach(q=>{const slope=Math.hypot(q.sx,q.sz),lit=clamp(-(q.sx*-.55+q.sz*-.45)*2.2,-1,1),lift=clamp(q.hm/.15,0,1);
+    const dip=clamp(-q.hm/.04,0,1),hi=Math.max(0,lit)*lift+Math.max(0,-lit)*dip*.6,lo=Math.max(0,-lit)*lift+Math.max(0,lit)*dip;
+    const rC=(10+45*lift+90*hi)*(1-.4*lo)*(1-.75*dip),gC=(39+55*lift+90*hi)*(1-.4*lo)*(1-.75*dip),bC=(76+80*lift+80*hi)*(1-.4*lo)*(1-.6*dip);
+    g.beginPath();q.pts.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));g.closePath();
+    g.fillStyle=`rgba(${Math.round(rC)},${Math.round(gC)},${Math.round(bC)},${(.45+.45*Math.max(lift,dip)).toFixed(2)})`;g.fill();
+    const e=Math.max(lift,dip);g.strokeStyle=`rgba(${M},${(.1+.45*e+.3*clamp(slope*2,0,1)*e).toFixed(2)})`;g.lineWidth=.55+.6*e;g.stroke()});
+  g.strokeStyle=`rgba(${M},.55)`;g.lineWidth=1.5;g.beginPath();[[-1,-1],[1,-1],[1,1],[-1,1],[-1,-1]].forEach(([x,z],i)=>{const p=proj(x,0,z);i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])});g.stroke();
+  g.globalAlpha=1;
+  if(!RM)requestAnimationFrame(frame)}
+if(RM)frame(28000*.86);else requestAnimationFrame(frame);
+})();
+
+</script>
+<script>
+(function(){
+const c=document.getElementById('regen');if(!c)return;
+const M='255,203,5',B='127,176,232';
+function R(s){return()=>(s=(s*16807)%2147483647)/2147483647}
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const seg=(c,a,b)=>clamp((c-a)/(b-a),0,1);
+const r=R(21);
+const K=5,NV=4;
+const cracks=[.31,.4,.48,.56,.64,.71].map(f=>({f:f+(r()-.5)*.025,pts:Array.from({length:7},()=>[(r()-.5)*10,r()])}));
+const scat=Array.from({length:500},()=>({dx:(r()-.5)*2,dy:r()*2-.4,p:r()*6.283}));
+const mes=[];for(let j=0;j<=NV;j++)for(let i=0;i<30;i++)mes.push({j,u:r(),lat:(r()-.5)*2,wx:r(),wy:r(),f:.5+r(),p:r()*6.283});
+const lam=Array.from({length:120},()=>({x:r(),y:r(),p:r()*6.283}));
+const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function frame(t){
+  const W=c.clientWidth,H=c.clientHeight;if(!W){if(!RM)requestAnimationFrame(frame);return}
+  const dpr=Math.min(devicePixelRatio||1,2);if(c.width!==Math.round(W*dpr)){c.width=Math.round(W*dpr);c.height=Math.round(H*dpr)}
+  const g=c.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);
+  const T=t/1000,cyc=(T%20)/20;
+  const crack=ease(seg(cyc,.1,.2)),heal=ease(seg(cyc,.44,.58)),open=crack*(1-heal);
+  const shrinkAt=k=>ease(seg(cyc,.22+k*.01,.4))*(1-ease(seg(cyc,.6+k*.01,.88)));
+  const scatter=ease(seg(cyc,.24,.36))*(1-ease(seg(cyc,.42,.58)));
+  const shake=cyc>.1&&cyc<.22?Math.sin(T*60)*1.2*(1-seg(cyc,.18,.22)):0;
+  const stage=cyc<.1?'intact':cyc<.22?'injury':cyc<.42?'villus atrophy':cyc<.6?'mesenchymal reorganization':cyc<.88?'regeneration':'restored';
+  const P=W/NV;
+  const zone=x=>Math.exp(-(((x/W-.5)/.24)**6));
+  const baseY=H*.64,Hv=H*.3,Hc=H*.15;
+  const villusH=(x,k)=>Hv*(1-.82*shrinkAt(k)*zone(x));
+  const prof=(x,k)=>{const p=x/P+.5+(k%2)*.5,d=p-Math.floor(p);
+    const v=Math.exp(-(((d-.5)/.2)**4)),dd=Math.min(d,1-d);
+    const cupS=Math.exp(-((dd/.085)**4));
+    const z=zone(x),s=shrinkAt(k);return baseY-villusH(x,k)*v+Hc*cupS*(1-.5*s*z)+shake*z};
+  const proj=(x,y,k)=>{const zz=k*.32,s=1/(1+zz*.42);return[W/2+(x-W/2)*s,baseY-(baseY-y)*s-zz*H*.2,s]};
+  for(let k=K-1;k>=0;k--){
+    const front=k===0,fa=1-k/K,N=Math.round(W*(front?1.6:.8)),pts=[];
+    for(let i=0;i<=N;i++){const x=-W*.35+i/N*W*1.7;const[X,Y,s]=proj(x,prof(x,k),k);pts.push([X,Y,x,s])}
+    g.beginPath();pts.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));g.lineTo(W*1.5,H+5);g.lineTo(-W*.5,H+5);g.closePath();
+    g.fillStyle='#0b0c0e';g.fill();g.fillStyle=`rgba(0,39,76,${(.25+.45*fa).toFixed(2)})`;g.fill();
+    const nrm=i=>{const a=pts[Math.max(0,i-1)],b=pts[Math.min(N,i+1)];const dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy)||1;return[-dy/L,dx/L]};
+    const inGap=x=>front&&cracks.some(q=>Math.abs(x-q.f*W)<7*open);
+    if(front){
+      // lamina propria
+      lam.forEach(m=>{const x=m.x*W,yb=prof(x,0)+Hc+14;const y=yb+m.y*(H-yb);if(y>H-3)return;g.fillStyle=`rgba(${B},.22)`;g.beginPath();g.arc(x+Math.sin(T*.6+m.p),y,1.7,0,7);g.fill()});
+      // villus-core mesenchyme
+      mes.forEach(m=>{const x0=m.j*P;const z=zone(x0),h=villusH(x0,0);
+        const core=[x0+m.lat*P*.09*(1-.35*m.u),baseY-6-m.u*h*.82];
+        const wander=[x0+(m.wx-.5)*P*1.1+Math.sin(T*m.f+m.p)*10,baseY+8+m.wy*Hc*1.1+Math.cos(T*m.f*1.2+m.p)*8];
+        const sc=scatter*z;const x=core[0]+(wander[0]-core[0])*sc,y=core[1]+(wander[1]-core[1])*sc+Math.sin(T*1.7+m.p)*.8;
+        if(x<-5||x>W+5)return;g.fillStyle=`rgba(${B},.55)`;g.beginPath();g.arc(x,y,2.1,0,7);g.fill()});
+    }
+    const lw=front?2.2:1.2+.6*fa;
+    const line=(off,alpha,w)=>{g.strokeStyle=`rgba(${M},${alpha})`;g.lineWidth=w;g.beginPath();let pen=false;
+      pts.forEach((p,i)=>{if(inGap(p[2])){pen=false;return}const nn=nrm(i),x=p[0]+nn[0]*off,y=p[1]+nn[1]*off;pen?g.lineTo(x,y):g.moveTo(x,y);pen=true});g.stroke()};
+    line(0,(.35+.6*fa).toFixed(2),lw);
+    const th=front?11:7*pts[0][3];if(front)line(th,.45,1);
+    let acc=0,ci=0;const step=front?9:12;
+    for(let i=1;i<=N;i++){acc+=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);if(acc<step)continue;acc=0;ci++;
+      const[x,y,sx]=pts[i];if(x<-4||x>W+4||inGap(sx))continue;const nn=nrm(i);
+      if(front){const z=zone(sx),s=scat[ci%scat.length],sc=scatter*z;
+        if(sc<.05){g.strokeStyle=`rgba(${M},.38)`;g.lineWidth=1;g.beginPath();g.moveTo(x,y);g.lineTo(x+nn[0]*th,y+nn[1]*th);g.stroke()}
+        g.fillStyle=`rgba(${B},${(.95-.45*sc).toFixed(2)})`;g.beginPath();g.ellipse(x+nn[0]*th*.5+s.dx*10*sc,y+nn[1]*th*.5+s.dy*8*sc,2.3,3.6,Math.atan2(nn[1],nn[0]),0,7);g.fill()}
+      else{g.fillStyle=`rgba(${B},${(.25+.5*fa).toFixed(2)})`;g.beginPath();g.arc(x+nn[0]*th*.5,y+nn[1]*th*.5,1.6*pts[i][3],0,7);g.fill()}}
+    if(front&&open>0)cracks.forEach(q=>{const x0=q.f*W,y0=prof(x0,0);g.strokeStyle=`rgba(255,255,255,${(.9*open).toFixed(2)})`;g.lineWidth=1.4;g.beginPath();g.moveTo(x0,y0-6);
+      q.pts.forEach((p,i)=>{const fr=(i+1)/q.pts.length;if(fr<=crack)g.lineTo(x0+p[0],y0-6+fr*34)});g.stroke()});
+  }
+  
+  if(!RM)requestAnimationFrame(frame)}
+if(RM)frame(0);else requestAnimationFrame(frame);
+})();
+
+</script>
+<script>
+(function(){
+const M='255,203,5',B='127,176,232';
+function R(s){return()=>(s=(s*16807)%2147483647)/2147483647}
+const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const cvs=[...document.querySelectorAll('canvas[data-q3]')];if(!cvs.length)return;
+const mk=(seed,n,fn)=>{const r=R(seed);return Array.from({length:n},(_,i)=>fn(r,i))};
+const base=mk(11,70,r=>({x:r(),y:r(),s:14+r()*22,ph:r()*6.283,vx:r()*6.283,vy:r()*6.283}));
+const organs=[[.22,.3],[.78,.32],[.5,.78]];
+const org=mk(5,66,(r,i)=>{const o=organs[i%3],a=r()*6.283,d=Math.sqrt(r())*.15;return{o:i%3,x:o[0]+Math.cos(a)*d*.8,y:o[1]+Math.sin(a)*d,s:9+r()*12,ph:r()*6.283,vx:r()*6.283,vy:r()*6.283}});
+function cell(g,x,y,s,ph,t,glow){g.save();g.translate(x,y);g.rotate(ph+t*.0001);g.strokeStyle=`rgba(${M},${(.75+.25*glow).toFixed(2)})`;g.lineWidth=1.5+glow;g.beginPath();
+  for(let k=0;k<=6;k++){const a=k/6*Math.PI*2,rr=s*(1+.15*Math.sin(a*3+ph))*(1+.12*glow);g.lineTo(Math.cos(a)*rr,Math.sin(a)*rr)}g.stroke();
+  g.fillStyle=`rgba(${B},${(.85+.15*glow).toFixed(2)})`;g.beginPath();g.arc(0,0,s*.32*(1+.25*glow),0,7);g.fill();g.restore()}
+const ease3=x=>x*x*(3-2*x);
+const clamp01=x=>Math.max(0,Math.min(1,x));
+const mix=(a,b,u)=>a.map((v,i)=>Math.round(v+(b[i]-v)*u));
+function cell2(g,x,y,s,ph,t,u){const mem=mix([255,203,5],[255,236,170],u),nuc=mix([127,176,232],[0,170,255],u);
+  g.save();g.translate(x,y);g.rotate(ph+t*.0001);g.strokeStyle=`rgba(${mem},.95)`;g.lineWidth=1.5+.8*u;g.beginPath();
+  for(let k=0;k<=6;k++){const a=k/6*Math.PI*2,rr=s*(1+.15*Math.sin(a*3+ph));g.lineTo(Math.cos(a)*rr,Math.sin(a)*rr)}g.stroke();
+  if(u>.05){g.fillStyle=`rgba(0,170,255,${(.28*u).toFixed(2)})`;g.beginPath();g.arc(0,0,s*.34*(1+.2*u)*2.1,0,7);g.fill()}g.fillStyle=`rgba(${nuc},1)`;g.beginPath();g.arc(0,0,s*.34*(1+.2*u),0,7);g.fill();g.restore()}
+const pos=(p,W,H,t,amp)=>[p.x*W+Math.sin(t*.0004+p.vx)*amp,p.y*H+Math.cos(t*.00035+p.vy)*amp];
+function frame(t){cvs.forEach(c=>{
+  const W=c.clientWidth,H=c.clientHeight;if(!W)return;const d=Math.min(devicePixelRatio||1,2);
+  if(c.width!==Math.round(W*d)){c.width=Math.round(W*d);c.height=Math.round(H*d)}
+  const g=c.getContext('2d');g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,W,H);const k=c.dataset.q3,F=Math.min(1,W/560);
+  if(k==='orig'){base.forEach(p=>cell(g,p.x*W,p.y*H,p.s*F,p.ph,t,0));return}
+  if(k==='net'){
+    const P=base.map(p=>pos(p,W,H,t,8));const grow=Math.min(1,((t/1000)%14)/5),fade=((t/1000)%14)>12.5?1-(((t/1000)%14)-12.5)/1.5:1;
+    const D=Math.min(W,H)*.22;
+    for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const dx=P[j][0]-P[i][0],dy=P[j][1]-P[i][1],dd=Math.hypot(dx,dy);if(dd>D)continue;
+      const order=((i*7+j*13)%97)/97;if(order>grow)continue;const a=(1-dd/D)*fade;
+      g.strokeStyle=`rgba(${M},${(.75*a).toFixed(2)})`;g.lineWidth=1.3;g.beginPath();g.moveTo(P[i][0],P[i][1]);g.lineTo(P[j][0],P[j][1]);g.stroke();
+      const s=((t/1000)*.5+order*3)%1;g.fillStyle=`rgba(255,255,255,${(.85*a).toFixed(2)})`;g.beginPath();g.arc(P[i][0]+dx*s,P[i][1]+dy*s,2.2,0,7);g.fill()}
+    base.forEach((p,i)=>cell(g,P[i][0],P[i][1],p.s*.5*F,p.ph,t,0));return}
+  if(k==='organs'){
+    const T=t/1000,P=org.map(p=>pos(p,W,H,t,4));
+    const C=organs.map(o=>[o[0]*W,o[1]*H]);
+    const glow=[0,0,0];
+    [[0,1],[1,2],[2,0]].forEach(([a,b],e)=>{const A=C[a],Bp=C[b],mx=(A[0]+Bp[0])/2,my=(A[1]+Bp[1])/2,cx=W/2,cy=H*.47;
+      const qx=mx+(mx-cx)*.6,qy=my+(my-cy)*.6;
+      g.strokeStyle=`rgba(${M},.35)`;g.lineWidth=1.5;g.setLineDash([3,5]);g.beginPath();g.moveTo(A[0],A[1]);g.quadraticCurveTo(qx,qy,Bp[0],Bp[1]);g.stroke();g.setLineDash([]);
+      for(let n=0;n<2;n++){const s=((T*.28+e*.33+n*.5)%1),dir=n?1:0,u=dir?1-s:s;const x=(1-u)**2*A[0]+2*(1-u)*u*qx+u*u*Bp[0],y=(1-u)**2*A[1]+2*(1-u)*u*qy+u*u*Bp[1];
+        g.fillStyle='rgba(255,255,255,.95)';g.beginPath();g.arc(x,y,3,0,7);g.fill();g.fillStyle=`rgba(${M},.25)`;g.beginPath();g.arc(x,y,8,0,7);g.fill();
+        if(s>.9){glow[dir?a:b]=Math.max(glow[dir?a:b],(s-.9)/.1)}}});
+    for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){if(org[i].o!==org[j].o)continue;const dd=Math.hypot(P[j][0]-P[i][0],P[j][1]-P[i][1]);if(dd>Math.min(W,H)*.12)continue;
+      g.strokeStyle=`rgba(${B},${(.25+.4*glow[org[i].o]).toFixed(2)})`;g.lineWidth=1;g.beginPath();g.moveTo(P[i][0],P[i][1]);g.lineTo(P[j][0],P[j][1]);g.stroke()}
+    org.forEach((p,i)=>cell(g,P[i][0],P[i][1],p.s*.75*F,p.ph,t,glow[p.o]));return}
+  if(k==='wave'){
+    const T=t/1000,AR=W/H,P=base.map(p=>pos(p,W,H,t,3));const wx=((T*.17)%1.9-.45);
+    if(!c._sites){const rr=R(77),r0=()=>rr()*6.283,sites=[];let tries=0;while(sites.length<9&&tries<4000){tries++;const x=.1+rr()*.8,y=.12+rr()*.76;if(sites.every(q=>Math.hypot((q.x-x)*AR,q.y-y)>.3))sites.push({x,y})}
+      c._sites=sites;c._as=base.map(()=>-1);sites.forEach((q,k)=>{base.map((p,i)=>[i,Math.hypot((q.x-p.x)*AR,q.y-p.y)]).filter(v=>c._as[v[0]]<0&&v[1]<.32).sort((u,v)=>u[1]-v[1]).slice(0,7).forEach(v=>c._as[v[0]]=k)});
+      c._ang=base.map(()=>0);sites.forEach((q,k)=>{const idx=base.map((p,i)=>i).filter(i=>c._as[i]===k).sort((i,j)=>Math.atan2(base[i].y-q.y,(base[i].x-q.x)*AR)-Math.atan2(base[j].y-q.y,(base[j].x-q.x)*AR));c._ring=c._ring||{};if(idx.length<5){idx.forEach(i=>c._as[i]=-1);return}const off=r0();idx.forEach((i,n)=>c._ang[i]=off+n/idx.length*6.283);c._ring[k]=idx})}
+    const sites=c._sites,as=c._as;
+    const dt=c._t?Math.min(.1,(t-c._t)/1000):0;c._t=t;c._s=c._s||base.map(()=>0);const S=c._s;
+    const amp=p=>{const u=(p[0]/W*.8+p[1]/H*.2)-wx;return Math.exp(-((u/.1)**2))};
+    P.forEach((p,i)=>{const a=amp(p);S[i]=a>S[i]?S[i]+(a-S[i])*Math.min(1,dt*9):S[i]*Math.exp(-dt*.32)});
+    const depth=sites.map((q,k)=>{let sum=0,n=0;as.forEach((v,i)=>{if(v===k){sum+=S[i];n++}});return n?ease3(clamp01(sum/n*1.25)):0});
+    const ringR=Math.min(W,H)*.12;
+    const Q=P.map((p,i)=>{const k=as[i];if(k<0)return p;const q=sites[k],cx=q.x*W,cy=q.y*H,d=depth[k],ang=c._ang[i];
+      const tx=cx+Math.cos(ang)*ringR*(1-.1*d),ty=cy+Math.sin(ang)*ringR*(1-.1*d),pull=ease3(clamp01(S[i]*1.5));return[p[0]+(tx-p[0])*pull,p[1]+(ty-p[1])*pull]});
+    sites.forEach((q,k)=>{const d=depth[k];if(d<.02)return;const cx=q.x*W,cy=q.y*H;
+      const gr=g.createRadialGradient(cx,cy,0,cx,cy,ringR*1.05);gr.addColorStop(0,`rgba(0,0,0,${(.95*d).toFixed(2)})`);gr.addColorStop(.75,`rgba(0,50,110,${(.75*d).toFixed(2)})`);gr.addColorStop(1,'rgba(0,50,110,0)');
+      g.fillStyle=gr;g.beginPath();g.arc(cx,cy,ringR*1.05,0,7);g.fill();
+      for(let n=1;n<=4;n++){const rad=ringR*(1-n*.19*d);if(rad<2)continue;g.strokeStyle=`rgba(0,170,255,${(d*(.85-n*.15)).toFixed(2)})`;g.lineWidth=1.4;g.beginPath();g.ellipse(cx,cy+n*1.5*d,rad,rad*.92,0,0,7);g.stroke()}});
+    const link=(i,j,al)=>{g.strokeStyle=`rgba(${M},${(.25*al).toFixed(2)})`;g.lineWidth=5;g.beginPath();g.moveTo(Q[i][0],Q[i][1]);g.lineTo(Q[j][0],Q[j][1]);g.stroke();
+      g.strokeStyle=`rgba(255,226,120,${al.toFixed(2)})`;g.lineWidth=2;g.beginPath();g.moveTo(Q[i][0],Q[i][1]);g.lineTo(Q[j][0],Q[j][1]);g.stroke()};
+    Object.values(c._ring).forEach(idx=>{for(let n=0;n<idx.length;n++){const i=idx[n],j=idx[(n+1)%idx.length];if(idx.length<3&&n)break;const a=Math.min(S[i],S[j]);if(a>.06)link(i,j,Math.min(1,1.6*a))}});
+    const D=Math.min(W,H)*.15;
+    for(let i=0;i<Q.length;i++){if(as[i]>=0)continue;for(let j=0;j<Q.length;j++){if(j===i||(as[j]<0&&j<i))continue;const a=Math.min(S[i],S[j]);if(a<.08)continue;const dd=Math.hypot(Q[j][0]-Q[i][0],Q[j][1]-Q[i][1]);if(dd<D)link(i,j,.7*a*(1-dd/D))}}
+    base.forEach((p,i)=>{const k=as[i],sq=k>=0?1-.18*depth[k]:1;cell2(g,Q[i][0],Q[i][1],p.s*.55*F*(1+.12*S[i])*sq,p.ph,t,S[i])});return}
+});if(!RM)requestAnimationFrame(frame)}
+if(RM)frame(9000);else requestAnimationFrame(frame);
+})();
+
+</script>
+</body>
+</html>
