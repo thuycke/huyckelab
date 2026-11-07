@@ -293,6 +293,7 @@ footer .links{align-items:center}
 .landing-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;animation:rise .9s .2s ease-out both}
 .landing-nav a{text-decoration:none;font-weight:700;font-size:15px;padding:9px 18px;border:2px solid var(--maize);color:var(--band-ink);border-radius:999px;transition:background .2s,color .2s}
 .landing-nav a:hover,.landing-nav a:focus-visible{background:var(--maize);color:var(--on-maize)}
+@media (max-width:600px){.landing-nav{flex-direction:column;align-items:stretch;width:min(280px,80vw)}.landing-nav a{text-align:center;padding:12px 18px;font-size:16px}}
 .landing-foot{margin:6px 0 0;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.6}
 .landing-down{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);color:var(--maize);text-decoration:none;font-size:13px;font-weight:700}
 @keyframes rise{from{opacity:.2;transform:translateY(10px)}to{opacity:1;transform:none}}
