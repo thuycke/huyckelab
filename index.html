@@ -159,6 +159,13 @@ section.view{display:grid;gap:56px}
 
 .team-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:start}
 @media (max-width:860px){.team-grid{grid-template-columns:minmax(0,1fr)}}
+.pintro{display:grid;justify-items:center;text-align:center;gap:14px;padding:36px 8px}
+.pintro h2{margin:0;font-family:var(--f-display);font-size:clamp(20px,2.4vw,26px);line-height:1.25;max-width:22ch}
+.pintro p{margin:0;color:var(--muted);font-size:15px;max-width:34ch}
+.pintro-cell{width:72px;height:72px;border-radius:44% 56% 52% 48%/50% 44% 56% 50%;border:3px solid var(--maize);background:color-mix(in srgb,var(--maize) 18%,transparent);position:relative;animation:pbreath 3.2s ease-in-out infinite}
+.pintro-cell::after{content:"";position:absolute;inset:30%;border-radius:50%;background:var(--maize)}
+@keyframes pbreath{50%{transform:scale(1.06) rotate(4deg)}}
+.say-tap{display:none}@media (hover:none){.say-click{display:none}.say-tap{display:inline}}
 .profile{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:28px;display:grid;gap:16px;position:sticky;top:120px;scroll-margin-top:130px}
 @media (max-width:860px){.profile{position:static}}
 .profile h2{font-size:32px}
@@ -483,6 +490,7 @@ const NEWS=[
  ["2026-09-27","Irene wins a best poster award at Midwest SDB","Award",false,null,"img/news/irene-mwsdb-2026.jpg","50% 55%"],
  ["2026-09-01","The lab is awarded an NIGMS R35 (MIRA) grant","Award",true,null,"img/news/nigms-r35-2026.png","contain"],
  ["2026-08-24","The lab attends the Santa Cruz Developmental Biology Meeting","Event",false,null,["img/news/santa-cruz-2026.jpg","img/news/santa-cruz-2026-b.jpg","img/news/santa-cruz-2026-c.jpg","img/news/santa-cruz-2026-d.jpg"],"70% 72%"],
+ ["2026-08","Marie joins the lab","People",false,null],
  ["2026-07-20","Joint lab retreat with the Miller, West, and Edwards labs","Event",false,null,"img/news/retreat-2026.jpg"],
  ["2026-07-10","The 2026 MCDB Horizons interns present their summer projects","Event",false,null,"img/news/horizons-2026.jpg"],
  ["2026-07-10","Steven presents his MCDB Horizons summer research project","People",false,null,"img/news/steven-poster-2026.jpg","50% 45%"],
@@ -514,6 +522,7 @@ const PEOPLE=[
  {id:"steven",group:"ug",name:"Steven Nkurunziza",short:"Steven",kind:"member",role:"Undergraduate, MCDB Horizons",joined:"2026-06",honors:"Expanding Horizons Fellowship",photo:"img/head-9.jpg"},
  {id:"cassia",group:"ug",name:"Cassia Rubio-Turtle",short:"Cassia",kind:"member",role:"Undergraduate researcher",joined:"2025-03",honors:"UROP student; Honors Thesis",photo:"img/head-10.jpg"},
  {id:"liela",group:"ug",name:"Liela Yazjie",short:"Liela",kind:"member",role:"Undergraduate researcher",joined:"2026-01",photo:null},
+ {id:"marie",group:"ug",name:"Marie Whall",short:"Marie",kind:"member",role:"Undergraduate researcher",joined:"2026-08",photo:"img/head-11.jpg"},
  {id:"richard",group:"alum",name:"Richard Moulton",short:"Richard",kind:"alum",role:"Undergraduate researcher (graduated 2026)",joined:"2025-03",left:"2026-05-21",leftLabel:"graduated",photo:"img/head-7.jpg"}
 ];
 const ARTICLES=[[2026, "Calcium and actomyosin pulses drive tricellular zipping to remodel epithelial cell-cell junctions and facilitate cell packing", "Adhikary B, Zhao XO, Shahi A, Laboy-Figueroa AG, Purvis MP, Tjoelker KK, Huycke TR, Banerjee S, Martin AC, Miller AL", "bioRxiv", "doi: 10.64898/2026.10.30.763104", "https://www.biorxiv.org/content/10.64898/2026.10.30.763104v1", "Preprint"], [2024, "Patterning and folding of intestinal villi by active mesenchymal dewetting", "Huycke TR*, Häkkinen TJ*, Miyazaki H*, Srivastava V, Barruet E, McGinnis CS, Kalantari A, Cornwall-Scoones J, Vaka D, Zhu Q, Jo H, DeGrado WF, Thomson M, Garikipati K, Boffelli D, Klein OD, Gartner ZJ", "Cell", "187, 3072–3089", "https://www.cell.com/cell/fulltext/S0092-8674%2824%2900465-3", "Highlighted Article"], [2024, "Hox genes modulate physical forces to differentially shape small and large intestinal epithelia", "Gill HK, Yin S, Nerurkar NL, Lawlor JC, Lee C, Huycke TR, Mahadevan L, Tabin CJ", "Developmental Cell", "59(21), 2834–2849.e9", "https://pubmed.ncbi.nlm.nih.gov/39116876/", ""], [2024, "The developmental mechanics of divergent buckling patterns in the chick gut", "Gill HK, Yin S, Lawlor JC, Huycke TR, Nerurkar NL, Tabin CJ, Mahadevan L", "PNAS", "121(28), e2310992121", "https://pubmed.ncbi.nlm.nih.gov/38968105/", ""], [2019, "Genetic and mechanical regulation of intestinal smooth muscle development", "Huycke TR, Miller BM, Gill HK, Nerurkar NL, Sprinzak D, Mahadevan L, Tabin CJ", "Cell", "179, 90–105", "https://www.cell.com/cell/fulltext/S0092-8674%2819%2930960-2", ""], [2016, "Scaling pattern to variations in size during development of the vertebrate neural tube", "Uygur A, Young J, Huycke TR, Koska M, Briscoe J, Tabin CJ", "Developmental Cell", "37, 127–135", "https://doi.org/10.1016/j.devcel.2016.03.024", ""], [2015, "Bending gradients: how the intestinal stem cell gets its home", "Shyer AE, Huycke TR, Lee C, Mahadevan L, Tabin CJ", "Cell", "161, 569–580", "https://doi.org/10.1016/j.cell.2015.03.041", ""], [2014, "Role of mef2ca in developmental buffering of the zebrafish larval hyoid dermal skeleton", "DeLaurier A*, Huycke TR*, Nichols JT, Swartz ME, Larsen A, Walker C, Dowd J, Pan L, Moens CB, Kimmel CB", "Developmental Biology", "385, 189–199", "https://doi.org/10.1016/j.ydbio.2013.11.016", ""], [2013, "FishFace: interactive atlas of zebrafish craniofacial development at cellular resolution", "Eames BF, DeLaurier A, Ullmann B, Huycke TR, Nichols JT, Dowd J, McFadden M, Sasaki MM, Kimmel CB", "BMC Developmental Biology", "13, 23", "https://doi.org/10.1186/1471-213x-13-23", ""], [2012, "fras1 shapes endodermal pouch 1 and stabilizes zebrafish pharyngeal skeletal development", "Talbot JC, Walker MB, Carney TJ, Huycke TR, Yan YL, BreMiller RA, Gai L, DeLaurier A, Postlethwait JH, Hammerschmidt M, Kimmel CB", "Development", "139, 2804–2813", "https://journals.biologists.com/dev/article/139/15/2804/45137/fras1-shapes-endodermal-pouch-1-and-stabilizes", ""], [2012, "Hedgehog-dependent proliferation drives modular growth during morphogenesis of a dermal bone", "Huycke TR, Eames BF, Kimmel CB", "Development", "139, 2371–2380", "https://journals.biologists.com/dev/article/139/13/2371/45189/Hedgehog-dependent-proliferation-drives-modular", "Featured Article"]];
@@ -549,11 +558,12 @@ $("#filters").addEventListener("click",e=>{const b=e.target.closest("button");if
 renderNews();
 
 /* ---------- people ---------- */
-let sel="tyler";
+let sel=null;
 function initials(n){return n.split(" ").map(w=>w[0]).join("").slice(0,2)}
 function renderTissue(){
   $("#tissue").innerHTML=PEOPLE.map(p=>`<button type="button" class="cell ${p.kind} g-${p.group}" style="--i:${PEOPLE.indexOf(p)}" data-id="${p.id}" aria-pressed="${p.id===sel}" aria-label="${esc(p.name)}">${p.photo?`<span class="nucleus has-photo"><img src="${p.photo}" alt="" loading="lazy"></span>`:`<span class="nucleus">${initials(p.name)}</span>`}<small>${esc(p.short)}</small></button>`).join("");
   const p=PEOPLE.find(x=>x.id===sel);
+  if(!p){$("#profile").innerHTML=`<div class="pintro"><span class="pintro-cell" aria-hidden="true"></span><h2><span class="say-click">Click</span><span class="say-tap">Tap</span> on a cell to meet a member of the team</h2><p>Each cell is someone in the lab, colored by their position. Use the arrows on a profile to step through everyone.</p></div>`;return}
   const joined=p.joined?MON[+p.joined.slice(5,7)-1]+" "+p.joined.slice(0,4):"—";
   const facts=p.facts||Object.assign({},p.background?{"Background":esc(p.background)}:{},p.honors?{"Honors":esc(p.honors)}:{});
   const idx=PEOPLE.indexOf(p),N=PEOPLE.length,prevP=PEOPLE[(idx-1+N)%N],nextP=PEOPLE[(idx+1)%N];
